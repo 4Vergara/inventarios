@@ -1,184 +1,163 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-	<meta charset="utf-8">
-	<title>BASE</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta http-equiv="cache-control" content="max-age=0" />
-	<meta http-equiv="pragma" content="no-cache" />
-	<meta http-equiv="expires" content="0" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="copyright" content="CCS" />
-	<meta name="revisit" content="5 days" />
-	<meta name="Author" content="gffabio" />
-	<meta name="medium" content="medium_type" />
-	<meta name="Author Email" content="fabio.grandas@ccs.org.co" />
-	<meta name="DC.creator" content="gffabio" />
-	<meta name="DC.date" content="2020-04-22 010:00:00 AM" />
-	<meta name="DC.language" content="ES" />
-	<link rel="icon" type="image/png" href="<?php echo IP_SERVER ?>icon.png">
-	<link rel="shortcut icon" href="<?php echo IP_SERVER ?>favicon.ico" title="CCS" id="CCS" type="image/x-icon" />
-	<link href="<?php echo IP_SERVER ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="<?php echo IP_SERVER ?>assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo IP_SERVER ?>assets/sweetalert2/sweetalert2.css" rel="stylesheet" type="text/css" />
-	<link href="<?php echo IP_SERVER ?>assets/css/main.css?<?php echo rand() ?>" rel="stylesheet" type="text/css" />
-	<script src="<?php echo IP_SERVER ?>assets/jquery/jquery.min.js"></script>
-	<script src="<?php echo IP_SERVER ?>assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script>
-		var IP_SERVER = '<?php echo IP_SERVER ?>';
-	</script>
+    <meta charset="utf-8">
+    <title>Saho - Iniciar Sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="DC.language" content="ES" />
+	<link rel="icon" type="image/png" href="<?php echo IP_SERVER . 'assets/imagen/icon_solo.png'; ?>" />
+	<link rel="stylesheet" href="<?php echo IP_SERVER . 'assets/css/main.css'; ?>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+    </script>
+    <script>
+    var IP_SERVER = '<?php echo IP_SERVER ?>';
+    </script>
+    <style>
+    /* small helpers to better match the original visual intent */
+    .brand-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--orange-500);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .brand-circle svg {
+        width: 36px;
+        height: 36px;
+        color: #fff;
+    }
+
+    .card-login {
+        box-shadow: 0 4px 12px #000000b0;
+        border-radius: 8px;
+    }
+
+    /* Reduce the logo size so it doesn't take too much vertical space
+       Use max-height + auto width and object-fit to preserve aspect ratio */
+    .imagen-logo{
+        height: 90px;
+        max-height: 90px;
+        width: auto;
+        display: block;
+        margin: 0 auto 8px auto;
+        object-fit: contain;
+    }
+    </style>	
 </head>
-<body>
-	<style>
-		img {
-			border: 0;
-			vertical-align: top;
-			max-width: 100%;
-			height: auto;
-		}
-	</style>
-	<div id="divpreload">
-		<div class="spinner-border text-success" role="status">
-		</div>
-		<span>Cargando...</span>
-	</div>
-	<div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-md-6 col-lg-7">
-					<img src="<?php echo IP_SERVER ?>assets/imagen/logo_grande.png" alt="">
-				</div>
-				<div class="col-md-6 col-lg-5">
-					<div class="login-box bg-gradient box-shadow border-radius-10">
-						<form action="#" method="POST" novalidate>
-							<div class="p-2">
-								<div class="text-center">
-									<img src="<?php echo IP_SERVER ?>assets/imagen/test.png" alt="">
-								</div>
-							</div>
-							<div class="input-group custom pb-10">
-								<input type="text" class="form-control form-control-lg" id="usuario" name="usuario" value="" placeholder="Usuario" required>
-								<div class="input-group-append custom">
-									<span class="input-group-text"><i class="fas fa-user"></i></span>
-								</div>
-							</div>
-							<div class="input-group custom pb-10">
-								<input id="password" type="password" class="form-control form-control-lg" name="password" value="" placeholder="Clave de acceso" required>
-								<div class="input-group-append custom">
-									<span class="input-group-text"><i id="verclave" class="fa fa-eye cursor"></i></span>
-								</div>
-							</div>
-							<div class="row pb-20">
-								<div class="col-6">
-									<div class="custom-checkbox">
-										<input type="checkbox" class="custom-control-input" id="recordar" name="recordar">
-										<label class="custom-control-label" for="recordar">Recordar</label>
-									</div>
-								</div>
-								<div class="col-6">
-									<div class="forgot-password btn-link"><a href="#recuperar" id="formrecuperar">¿Olvidó su clave de acceso?</a></div>
-								</div>
-							</div>
-							<div class="row pb-30">
-								<div class="col-sm">
-									Al ingresar acepto la totalidad de la <a href="https://ccs.org.co/politica-de-privacidad/" target="_blank" class="text-primary">política de tratamiento de datos personales</a> del CONSEJO COLOMBIANO DE SEGURIDAD
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-12">
-									<div class="d-grid gap-2">
-										<input class="btn btn-primary btn-lg" type="submit" value="Ingresar">
-									</div>
-								</div>
-							</div>
-						</form>
+
+<body class="bg-light" id="body-login">
+    <div class="container min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="col-12 col-md-8 col-lg-5">
+			
+			<div class="card card-login">
+				<div class="card-body p-4">
+					<div class="text-center mb-4">
+						<div class="">
+							<img class="imagen-logo" src="<?php echo IP_SERVER . 'assets/imagen/icon_saho.png'; ?>" alt="Logo">
+						</div>
+						<h2 class="mt-3">Manejo de Inventarios</h2>
+						<p class="text-muted">Inicia sesión en tu cuenta</p>
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script>
-		var localData = 'codeigniter';
-		$(function() {
-			var form = $('form');
-			// datos de usuario recordados
-			var dudq = localStorage.getItem(localData);
-			if (dudq) {
-				var user = decode64(dudq,3,true);
-				$('#usuario').val(user.usuario);
-				$('#password').val(user.password);
-				$('#recordar').prop('checked', true);
-			}
-			form.submit(function(eve){
-				form.addClass('was-validated');
-				eve.preventDefault();
-				eve.stopPropagation();
-				var data = formToObjet(this);
-				if(data.usuario && data.password) {
-					if(data.recordar) {
-						localStorage.setItem(localData, encode64(data,3,true));
-					} else localStorage.removeItem(localData);
-					$.post(IP_SERVER +'login/ingresar', data,function(res){
-						if(res.success) {
-							if( res.url && res.token) {
-								localStorage.setItem(varToken, res.token);
-								setTimeout(function() {
-									window.location.replace(res.url);
-								}, 2000);
-							}
-						}
-					});
-				} else toas('Debe ingresar usuario y contraseña');
-			});
-			$('#formrecuperar').on('click', function(ev){
-				ev.preventDefault();
-				var inputValue = $('#usuario').val();
-				var objeto = Swal.mixin({
-					customClass: {
-						confirmButton: "btn",
-						cancelButton: "btn"
-					},
-					showCancelButton: true,
-					confirmButtonColor: "#28a745",
-					inputPlaceholder: "correo@dominio.com"
-				});
-				objeto.fire({
-					title: 'RESTAURAR CLAVE DE ACCESO',
-					icon: "info",
-					input: 'email',
-					inputValue,
-					html: "Para recuperar su clave de acceso, por favor complete la información solicitada. El sistema enviará al <b>correo electrónico suministrado una nueva clave de acceso temporal.</b>",
-					confirmButtonText: "¡RESTAURAR!",
-					inputValidator: (value) => {
-						if (!value) {
-						return "Dirección de correo electrónico no válida";
-						}
-					},
-					preConfirm: function(email) {
-						Swal.showLoading();
-						return new Promise(function(resolve) {
-							$.post(IP_SERVER+'login/recuperar', {email},function(res){
-								console.log(res);
-							});
-						})
-					},
-				});
-			});
-			$('#verclave').on('click', function(e){
-				var tipo = $('#password').prop('type');
-				$('#password').prop('type',tipo=='text'?'password':'text');
-			});
-		});
-	</script>
-		<!-- Footer -->
-	<footer class="sticky-footer bg-white">
-		<div class="container my-auto">
-			<div class="copyright text-center my-auto">
-				<span>Copyright &copy; Your Website 2019</span> <span id="versionapp"></span>
-			</div>
-		</div>
-	</footer>
-	<script src="<?php echo IP_SERVER ?>assets/sweetalert2/sweetalert2.all.js"></script>
-	<script src="<?php echo IP_SERVER ?>assets/js/main.js?<?php echo rand() ?>"></script>
+                    <form method="post" action="" novalidate id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input id="email" name="email" type="email" class="form-control"
+                                    placeholder="ejemplo@correo.com" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input id="password" name="password" type="password" class="form-control"
+                                    placeholder="••••••••" required>
+                                <button type="button" class="btn btn-outline-orange" id="togglePassword"
+                                    aria-label="Mostrar contraseña">
+                                    <i id="eyeIcon" class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="remember-me"
+                                    name="remember-me">
+                                <label class="form-check-label small" for="remember-me">Recordarme</label>
+                            </div>
+                            <div class="small">
+                                <a href="#">¿Olvidaste tu contraseña?</a>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-orange btn-lg">Iniciar Sesión</button>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="mb-0 small text-muted">¿No tienes una cuenta? <a href="#">Regístrate aquí</a></p>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-3 small text-muted">
+                <p class="mb-0">© Manejo de inventarios. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </div>
 </body>
-</html>
+<script>
+// Toggle password visibility using Bootstrap Icons classes
+(function() {
+    var toggle = document.getElementById('togglePassword');
+    var pwd = document.getElementById('password');
+    var eyeIcon = document.getElementById('eyeIcon');
+    if (!toggle || !pwd || !eyeIcon) return;
+    toggle.addEventListener('click', function() {
+        if (pwd.type === 'password') {
+            pwd.type = 'text';
+            eyeIcon.classList.remove('bi-eye');
+            eyeIcon.classList.add('bi-eye-slash');
+        } else {
+            pwd.type = 'password';
+            eyeIcon.classList.remove('bi-eye-slash');
+            eyeIcon.classList.add('bi-eye');
+        }
+    });
+
+	$('#loginForm').on('submit', function(e) {
+		e.preventDefault();
+		
+		$.ajax({
+			url: IP_SERVER + 'login/ingresar',
+			type: 'POST',
+			data: $(this).serialize(),
+			dataType: 'json',
+			success: function(response) {
+
+			},
+			error: function() {
+				
+			}
+		});
+	});
+})();
+</script>

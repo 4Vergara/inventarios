@@ -30,21 +30,18 @@ defined('EXIT__AUTO_MAX') OR define('EXIT__AUTO_MAX', 125); // highest automatic
 // --------------------------------------------------------------------------
 $enviroment = "DEVELOPMENT"; // PRODUCTION DEVELOPMENT
 if ($enviroment == "DEVELOPMENT") {
-	define('SSOLOGIN', 'https://ssologin.ccs.org.co/api/ingresar/');
-	define('IP_SERVER', 'http://localhost/codeigniter/'); //Ip o ruta desarrollo
+	define('IP_SERVER', 'http://localhost/inventarios/'); //Ip o ruta desarrollo
 	define('HOSTNAME', 'localhost');
 	define('USERNAME', 'root');
 	define('PASSWORD', '');
-	define('DATABASE', 'sgd');
+	define('DATABASE', 'inventarios');
 } else if ($enviroment == "PRODUCTION") {
-	define('SSOLOGIN', 'https://ssologin.ccs.org.co/api/ingresar/');
-	define('IP_SERVER', 'http://desarrollo.ccs.org.co/xxx/'); //Ip o ruta produccion
+	define('IP_SERVER', ''); //Ip o ruta produccion
 	define('HOSTNAME', 'localhost');
 	define('USERNAME', 'root');
-	define('PASSWORD', 'toor');
-	define('DATABASE', 'sgd');
+	define('PASSWORD', '');
+	define('DATABASE', 'inventarios');
 }
-defined('KEY_SSOLOGIN') OR define('KEY_SSOLOGIN', md5('lak3yd3l4c0ntr4s3ñ4,=.'));
 // tiempo para que expire la sesion
 defined('LASTACTIVITY') OR define('LASTACTIVITY', '-2 days');
 // datos para encriptar y desencriptar SSL y HASH

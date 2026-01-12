@@ -1,4 +1,41 @@
 @charset "UTF-8";
+/* ***********************
+	Paleta de colores - NARANJAS (variables CSS)
+	Agregadas para uso en el proyecto como: var(--orange-500)
+	*********************** */
+:root {
+	/* Naranja: escala clara -> oscura */
+	--orange-50:  #fff7ed;
+	--orange-100: #ffedd5;
+	--orange-200: #fed7aa;
+	--orange-300: #fdba74;
+	--orange-400: #fb923c;
+	--orange-500: #f97316;
+	--orange-600: #ea580c;
+	--orange-700: #c2410c;
+	--orange-800: #9a3412;
+	--orange-900: #7c2d12;
+}
+
+#body-login {
+	background-image: url('../imagen/background_naranja.png');
+	background-size: cover;
+	background-position: center;
+	/* Desactivar el background original y usar pseudo-elemento con opacidad ajustable */
+	background-image: none;
+	position: relative;
+}
+#body-login::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image: url('../imagen/background_naranja.png');
+	background-size: cover;
+	background-position: center;
+	opacity: 0.6; /* Ajusta este valor entre 0 (transparente) y 1 (opaco) */
+	z-index: -1;
+}
+
 #contenido {
 	overflow-y: scroll;
 }
@@ -229,4 +266,34 @@
 .font-10 {
 	font-size: 10px;
 	line-height: 2em;
+}
+
+.btn-orange {
+	background-color: var(--orange-500) !important;
+	border-color: var(--orange-500) !important;
+	color: #ffffff !important;
+}
+
+.btn-orange:hover {
+	background-color: var(--orange-600) !important;
+	border-color: var(--orange-600) !important;
+	color: #ffffff !important;
+}
+
+.btn-orange:active, .btn-orange.active,
+.show > .btn-orange.dropdown-toggle {
+	background-color: var(--orange-700) !important;
+	border-color: var(--orange-700) !important;
+	color: #ffffff !important;
+}
+
+.btn-outline-orange {
+	color: var(--orange-500) !important;
+	border-color: var(--orange-500) !important;
+}
+
+.btn-outline-orange:hover {
+	background-color: var(--orange-500) !important;
+	border-color: var(--orange-500) !important;
+	color: #ffffff !important;
 }

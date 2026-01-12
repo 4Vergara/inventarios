@@ -10,20 +10,16 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="copyright" content="CCS" />
 	<meta name="revisit" content="5 days" />
-	<meta name="Author" content="gffabio" />
+	<meta name="Author" content="" />
 	<meta name="medium" content="medium_type" />
-	<meta name="Author Email" content="fabio.grandas@ccs.org.co" />
-	<meta name="DC.creator" content="gffabio" />
+	<meta name="Author Email" content="" />
+	<meta name="DC.creator" content="" />
 	<meta name="DC.date" content="2020-04-22 010:00:00 AM" />
 	<meta name="DC.language" content="ES" />
-	<link rel="icon" type="image/png" href="<?php echo IP_SERVER ?>icon.png">
-	<link rel="shortcut icon" href="<?php echo IP_SERVER ?>favicon.ico" title="CCS" id="CCS" type="image/x-icon" />
-	<link href="<?php echo IP_SERVER ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="<?php echo IP_SERVER ?>assets/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
-	<link href="<?php echo IP_SERVER ?>assets/sweetalert2/sweetalert2.css" rel="stylesheet" type="text/css" />
-	<link href="<?php echo IP_SERVER ?>assets/css/main.css?<?php echo rand() ?>" rel="stylesheet" type="text/css" />
-	<script src="<?php echo IP_SERVER ?>assets/jquery/jquery.min.js"></script>
-	<script src="<?php echo IP_SERVER ?>assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 	<script>
 		var IP_SERVER = '<?php echo IP_SERVER ?>';
 	</script>

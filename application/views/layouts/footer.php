@@ -7,7 +7,5 @@
 			</div>
 		</div>
 	</footer>
-	<script src="<?php echo IP_SERVER ?>assets/sweetalert2/sweetalert2.all.js"></script>
-	<script src="<?php echo IP_SERVER ?>assets/js/main.js?<?php echo rand() ?>"></script>
 </body>
 </html>
