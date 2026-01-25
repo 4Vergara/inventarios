@@ -30,7 +30,7 @@
         width: 80px;
         height: 80px;
         border-radius: 50%;
-        background: var(--orange-500);
+        background: var(--color_principal-500);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -90,7 +90,7 @@
                                 <span class="input-group-text"><i class="bi bi-lock"></i></span>
                                 <input id="contrasena" name="contrasena" type="password" class="form-control"
                                     placeholder="••••••••" required>
-                                <button type="button" class="btn btn-outline-orange" id="togglePassword"
+                                <button type="button" class="btn btn-outline-color_principal" id="togglePassword"
                                     aria-label="Mostrar contraseña">
                                     <i id="eyeIcon" class="bi bi-eye"></i>
                                 </button>
@@ -108,13 +108,8 @@
                         </div>
 
                         <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-orange btn-lg">Iniciar Sesión</button>
+                            <button type="submit" class="btn btn-color_principal btn-lg">Iniciar Sesión</button>
                         </div>
-
-                        <div class="text-center">
-                            <p class="mb-0 small text-muted">¿No tienes una cuenta? <a href="#">Regístrate aquí</a></p>
-                        </div>
-
                     </form>
                 </div>
             </div>

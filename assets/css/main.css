@@ -1,20 +1,20 @@
 @charset "UTF-8";
 /* ***********************
 	Paleta de colores - NARANJAS (variables CSS)
-	Agregadas para uso en el proyecto como: var(--orange-500)
+	Agregadas para uso en el proyecto como: var(--color_principal-500)
 	*********************** */
 :root {
 	/* Naranja: escala clara -> oscura */
-	--orange-50:  #fff7ed;
-	--orange-100: #ffedd5;
-	--orange-200: #fed7aa;
-	--orange-300: #fdba74;
-	--orange-400: #fb923c;
-	--orange-500: #f97316;
-	--orange-600: #ea580c;
-	--orange-700: #c2410c;
-	--orange-800: #9a3412;
-	--orange-900: #7c2d12;
+	--color_principal-50:  #fff7ed;
+	--color_principal-100: #ffedd5;
+	--color_principal-200: #fed7aa;
+	--color_principal-300: #fdba74;
+	--color_principal-400: #fb923c;
+	--color_principal-500: #f97316;
+	--color_principal-600: #ea580c;
+	--color_principal-700: #c2410c;
+	--color_principal-800: #9a3412;
+	--color_principal-900: #7c2d12;
 }
 
 #body-login {
@@ -268,32 +268,32 @@
 	line-height: 2em;
 }
 
-.btn-orange {
-	background-color: var(--orange-500) !important;
-	border-color: var(--orange-500) !important;
+.btn-color_principal {
+	background-color: var(--color_principal-500) !important;
+	border-color: var(--color_principal-500) !important;
 	color: #ffffff !important;
 }
 
-.btn-orange:hover {
-	background-color: var(--orange-600) !important;
-	border-color: var(--orange-600) !important;
+.btn-color_principal:hover {
+	background-color: var(--color_principal-600) !important;
+	border-color: var(--color_principal-600) !important;
 	color: #ffffff !important;
 }
 
-.btn-orange:active, .btn-orange.active,
-.show > .btn-orange.dropdown-toggle {
-	background-color: var(--orange-700) !important;
-	border-color: var(--orange-700) !important;
+.btn-color_principal:active, .btn-color_principal.active,
+.show > .btn-color_principal.dropdown-toggle {
+	background-color: var(--color_principal-700) !important;
+	border-color: var(--color_principal-700) !important;
 	color: #ffffff !important;
 }
 
-.btn-outline-orange {
-	color: var(--orange-500) !important;
-	border-color: var(--orange-500) !important;
+.btn-outline-color_principal {
+	color: var(--color_principal-500) !important;
+	border-color: var(--color_principal-500) !important;
 }
 
-.btn-outline-orange:hover {
-	background-color: var(--orange-500) !important;
-	border-color: var(--orange-500) !important;
+.btn-outline-color_principal:hover {
+	background-color: var(--color_principal-500) !important;
+	border-color: var(--color_principal-500) !important;
 	color: #ffffff !important;
 }
