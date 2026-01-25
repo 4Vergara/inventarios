@@ -10,8 +10,8 @@
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="DC.language" content="ES" />
-	<link rel="icon" type="image/png" href="<?php echo IP_SERVER . 'assets/imagen/icon_solo.png'; ?>" />
-	<link rel="stylesheet" href="<?php echo IP_SERVER . 'assets/css/main.css'; ?>">
+    <link rel="icon" type="image/png" href="<?php echo IP_SERVER . 'assets/imagen/icon_solo.png'; ?>" />
+    <link rel="stylesheet" href="<?php echo IP_SERVER . 'assets/css/main.css'; ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css">
@@ -20,6 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
     var IP_SERVER = '<?php echo IP_SERVER ?>';
     </script>
@@ -48,7 +49,7 @@
 
     /* Reduce the logo size so it doesn't take too much vertical space
        Use max-height + auto width and object-fit to preserve aspect ratio */
-    .imagen-logo{
+    .imagen-logo {
         height: 90px;
         max-height: 90px;
         width: auto;
@@ -56,37 +57,38 @@
         margin: 0 auto 8px auto;
         object-fit: contain;
     }
-    </style>	
+    </style>
 </head>
 
 <body class="bg-light" id="body-login">
     <div class="container min-vh-100 d-flex align-items-center justify-content-center">
         <div class="col-12 col-md-8 col-lg-5">
-			
-			<div class="card card-login">
-				<div class="card-body p-4">
-					<div class="text-center mb-4">
-						<div class="">
-							<img class="imagen-logo" src="<?php echo IP_SERVER . 'assets/imagen/icon_saho.png'; ?>" alt="Logo">
-						</div>
-						<h2 class="mt-3">Manejo de Inventarios</h2>
-						<p class="text-muted">Inicia sesión en tu cuenta</p>
-					</div>
+
+            <div class="card card-login">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <div class="">
+                            <img class="imagen-logo" src="<?php echo IP_SERVER . 'assets/imagen/icon_saho.png'; ?>"
+                                alt="Logo">
+                        </div>
+                        <h2 class="mt-3">Sistema de ventas</h2>
+                        <p class="text-muted">Inicia sesión en tu cuenta</p>
+                    </div>
                     <form method="post" action="" novalidate id="loginForm">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Correo electrónico</label>
+                            <label for="correo" class="form-label">Correo electrónico</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                <input id="email" name="email" type="email" class="form-control"
+                                <input id="correo" name="correo" type="email" class="form-control"
                                     placeholder="ejemplo@correo.com" required>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña</label>
+                            <label for="contrasena" class="form-label">Contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                                <input id="password" name="password" type="password" class="form-control"
+                                <input id="contrasena" name="contrasena" type="password" class="form-control"
                                     placeholder="••••••••" required>
                                 <button type="button" class="btn btn-outline-orange" id="togglePassword"
                                     aria-label="Mostrar contraseña">
@@ -94,7 +96,6 @@
                                 </button>
                             </div>
                         </div>
-
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" id="remember-me"
@@ -119,7 +120,7 @@
             </div>
 
             <div class="text-center mt-3 small text-muted">
-                <p class="mb-0">© Manejo de inventarios. Todos los derechos reservados.</p>
+                <p class="mb-0">© Sistema de ventas. Todos los derechos reservados.</p>
             </div>
         </div>
     </div>
@@ -128,7 +129,7 @@
 // Toggle password visibility using Bootstrap Icons classes
 (function() {
     var toggle = document.getElementById('togglePassword');
-    var pwd = document.getElementById('password');
+    var pwd = document.getElementById('contrasena');
     var eyeIcon = document.getElementById('eyeIcon');
     if (!toggle || !pwd || !eyeIcon) return;
     toggle.addEventListener('click', function() {
@@ -143,21 +144,29 @@
         }
     });
 
-	$('#loginForm').on('submit', function(e) {
-		e.preventDefault();
-		
-		$.ajax({
-			url: IP_SERVER + 'login/ingresar',
-			type: 'POST',
-			data: $(this).serialize(),
-			dataType: 'json',
-			success: function(response) {
+    $('#loginForm').on('submit', function(e) {
+        e.preventDefault();
 
-			},
-			error: function() {
-				
-			}
-		});
-	});
+        $.ajax({
+            url: IP_SERVER + 'login/ingresar',
+            type: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(response) {
+                if (response.resp == 1) {
+                    window.location.href = IP_SERVER + 'productos';
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        html: response.msg,
+                    });
+                }
+            },
+            error: function() {
+
+            }
+        });
+    });
 })();
 </script>

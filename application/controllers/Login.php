@@ -3,48 +3,56 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Login extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
+
+		$this->load->model('Usuarios_model');
 	}
 	public function index() {
 		$this->view('login');
 	}
+
+	/**
+	 * ? Funcion para ingresar al sistema
+	 * @return void
+	 */
 	public function ingresar() {
-		if (! empty($this->formData->usuario) && ! empty($this->formData->password)) {
-			if (! empty($data['data']) && $data['success'] && empty($data['error'])) {
-				$datos = (object) $data['data'];
-				if ($datos->usuario == $this->formData->usuario && $datos->mail && $datos->tiempo) {
-					$datos->token = hash('sha256', $datos->token);
-					$data         = [
-						'mail'   => $datos->mail,
-						'token'  => $datos->token,
-						'roles'  => ! empty($datos->roles) ? implode(',', $datos->roles) : '',
-						'tiempo' => $datos->tiempo,
-						'nombre' => $datos->displayname,
-					];
-					// consultar si existe
-					$user = $this->lg->findName(['usuario' => $this->formData->usuario]);
-					if (! empty($user->id) && $user->usuario) {
-						$data['update_at'] = date('Y-m-d H:i:s');
-						$data['id']        = $user->id;
-					} else {
-						$data['created_at'] = date('Y-m-d H:i:s');
-						$data['usuario']    = $this->formData->usuario;
-						// $data['id'] = $this->lg->insert($data);
-					}
-					$data['usuario']             = $this->formData->usuario;
-					$this->session->datosusuario = (object) $data;
-					$this->reques->url           = 'home';
-					$this->reques->token         = $datos->token;
-					$this->reques->toas          = 'Ingreso exitoso, bienvenido ' . $datos->displayname;
+		if (!empty($this->formData->correo) && ! empty($this->formData->contrasena)) {
+
+			//? Encriptar la contraseña
+			$contrasena_encrypted = hash('sha256', $this->formData->contrasena . KEY_ALGO);
+			$usuario = $this->Usuarios_model->findName('correo', $this->formData->correo);
+
+			//? Validar si el usuario existe
+			if(isset($usuario)){
+				//? Validar la contraseña
+				if ($usuario->contrasena === $contrasena_encrypted) {
+					//? Crear la sesion del usuario
+					$this->session->datosusuario = $usuario;
+					$this->json([
+						'resp' => 1, 
+						'msg' => 'Ingreso exitoso.'
+					]);
+					return;
 				} else {
-					$this->iffalse('Errores al ingresar, usuario o contraseña incorrectos.');
+					$this->json([
+						'resp' => 0, 
+						'msg' => 'Contraseña incorrecta.'
+					]);
+					return;
 				}
-			} else {
-				$this->errores($data);
+			}else{
+				$this->json([
+					'resp' => 0, 
+					'msg' => 'El usuario no existe.'
+				]);
+				return;
 			}
 		} else {
-			$this->iffalse('El formulario no es válido.');
+			$this->json([
+				'resp' => 0, 
+				'msg' => 'Debe completar todos los campos obligatorios.'
+			]);
+			return;
 		}
-		$this->json();
 	}
 	public function salir() {
 		$this->session->datosusuario = null;
