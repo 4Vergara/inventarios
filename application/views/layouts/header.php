@@ -16,6 +16,8 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link rel="stylesheet" href="<?php echo IP_SERVER . 'assets/datatables/datatables.min.css'; ?>">
+	<script src="<?php echo IP_SERVER . 'assets/datatables/datatables.min.js'; ?>"></script>
 	<script>
 		var IP_SERVER = '<?php echo IP_SERVER ?>';
 	</script>
