@@ -20,6 +20,7 @@
 	--color_principal-700: #c2410c;
 	--color_principal-800: #9a3412;
 	--color_principal-900: #7c2d12;
+	--color-outline-warning: #c09106;
 }
 
 /* Aplicar fuentes a todo el proyecto */
@@ -396,23 +397,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-outline-info {
-	color: #0dcaf0;
-	border-color: #0dcaf0;
+	color: #06677a !important;
+	border-color: #06677a !important;
 }
 
 .btn-outline-info:hover {
-	background-color: #0dcaf0;
-	color: white;
+	background-color: #06677a !important;
+	color: white !important;
 }
 
 .btn-outline-warning {
-	color: #ffc107;
-	border-color: #ffc107;
+	color: var(--color-outline-warning) !important;
+	border-color: var(--color-outline-warning) !important;
 }
 
 .btn-outline-warning:hover {
-	background-color: #ffc107;
-	color: #000;
+	background-color: var(--color-outline-warning) !important;
+	color: #ffffff !important;
 }
 
 /* ==========================================

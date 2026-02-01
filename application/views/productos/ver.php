@@ -105,16 +105,33 @@
 						<label class="text-muted small">Categoría</label>
 						<?php 
 						$categoriaNombre = '-';
+						$categoriaPadre = '';
 						if (isset($categorias) && $producto->id_categoria) {
-							foreach ($categorias as $cat) {
-								if ($cat->id == $producto->id_categoria) {
-									$categoriaNombre = $cat->nombre;
+							foreach ($categorias as $grupo) {
+								// Verificar si es la categoría principal
+								if ($grupo['categoria']->id == $producto->id_categoria) {
+									$categoriaNombre = $grupo['categoria']->nombre;
 									break;
+								}
+								// Buscar en subcategorías
+								if (!empty($grupo['subcategorias'])) {
+									foreach ($grupo['subcategorias'] as $subcat) {
+										if ($subcat->id == $producto->id_categoria) {
+											$categoriaPadre = $grupo['categoria']->nombre;
+											$categoriaNombre = $subcat->nombre;
+											break 2;
+										}
+									}
 								}
 							}
 						}
 						?>
-						<p class="mb-0 fw-semibold"><?php echo $categoriaNombre; ?></p>
+						<p class="mb-0 fw-semibold">
+							<?php if ($categoriaPadre): ?>
+								<small class="text-muted"><?php echo $categoriaPadre; ?> &raquo;</small><br>
+							<?php endif; ?>
+							<?php echo $categoriaNombre; ?>
+						</p>
 					</div>
 					<?php if ($producto->descripcion_corta): ?>
 					<div class="col-12">

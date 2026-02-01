@@ -18,7 +18,13 @@ class Productos extends CI_Controller {
 	 * Crear nuevo producto
 	 */
 	public function crear() {
+		// ? Cargar datos necesarios para el formulario de creación
 		$data['categorias'] = $this->Configuraciones_model->obtenerCategoriasProductos();
+		$data['tallas'] = $this->Configuraciones_model->obtenerPorValorPadre('SIZE_MASTER');
+		$data['unidades'] = $this->Configuraciones_model->obtenerPorValorPadre('UNIT_MASTER');
+		$data['temperaturas'] = $this->Configuraciones_model->obtenerPorValorPadre('TEMP_MASTER');
+		$data['generos'] = $this->Configuraciones_model->obtenerPorValorPadre('GENDER_MASTER');
+		$data['voltajes'] = $this->Configuraciones_model->obtenerPorValorPadre('VOLT_MASTER');
 		$this->vista('productos/formulario', $data);
 	}
 
@@ -36,6 +42,11 @@ class Productos extends CI_Controller {
 		}
 		
 		$data['categorias'] = $this->Configuraciones_model->obtenerCategoriasProductos();
+		$data['tallas'] = $this->Configuraciones_model->obtenerPorValorPadre('SIZE_MASTER');
+		$data['unidades'] = $this->Configuraciones_model->obtenerPorValorPadre('UNIT_MASTER');
+		$data['temperaturas'] = $this->Configuraciones_model->obtenerPorValorPadre('TEMP_MASTER');
+		$data['generos'] = $this->Configuraciones_model->obtenerPorValorPadre('GENDER_MASTER');
+		$data['voltajes'] = $this->Configuraciones_model->obtenerPorValorPadre('VOLT_MASTER');
 		$this->vista('productos/formulario', $data);
 	}
 
@@ -53,7 +64,11 @@ class Productos extends CI_Controller {
 		}
 		
 		$data['categorias'] = $this->Configuraciones_model->obtenerCategoriasProductos();
-
+		$data['tallas'] = $this->Configuraciones_model->obtenerPorValorPadre('SIZE_MASTER');
+		$data['unidades'] = $this->Configuraciones_model->obtenerPorValorPadre('UNIT_MASTER');
+		$data['temperaturas'] = $this->Configuraciones_model->obtenerPorValorPadre('TEMP_MASTER');
+		$data['generos'] = $this->Configuraciones_model->obtenerPorValorPadre('GENDER_MASTER');
+		$data['voltajes'] = $this->Configuraciones_model->obtenerPorValorPadre('VOLT_MASTER');
 		$this->vista('productos/ver', $data);
 	}
 

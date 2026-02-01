@@ -133,7 +133,7 @@
 						<!-- Nombre -->
 						<div class="col-12">
 							<label for="nombre" class="form-label fw-semibold">Nombre del Producto <span class="text-danger">*</span></label>
-							<input type="text" class="form-control form-control-lg" id="nombre" name="nombre" 
+							<input type="text" class="form-control form-control" id="nombre" name="nombre" 
 								value="<?php echo isset($producto) ? $producto->nombre : ''; ?>" 
 								placeholder="Ingrese el nombre del producto" required>
 							<div class="invalid-feedback">El nombre es requerido</div>
@@ -266,11 +266,10 @@
 							<label for="unidad_medida" class="form-label fw-semibold">Unidad de Medida</label>
 							<select class="form-select" id="unidad_medida" name="unidad_medida">
 								<?php 
-								$unidades = ['unidad', 'kg', 'g', 'litro', 'ml', 'metro', 'cm', 'paquete', 'caja', 'docena'];
 								$unidadActual = isset($producto) ? $producto->unidad_medida : 'unidad';
 								foreach ($unidades as $unidad): ?>
-									<option value="<?php echo $unidad; ?>" <?php echo ($unidadActual == $unidad) ? 'selected' : ''; ?>>
-										<?php echo ucfirst($unidad); ?>
+									<option value="<?php echo $unidad->id; ?>" <?php echo ($unidadActual == $unidad->valor) ? 'selected' : ''; ?>>
+										<?php echo ucfirst($unidad->nombre); ?>
 									</option>
 								<?php endforeach; ?>
 							</select>
@@ -418,12 +417,11 @@
 									<label for="temperatura_conservacion" class="form-label fw-semibold">Temperatura de Conservación</label>
 									<select class="form-select" id="temperatura_conservacion" name="temperatura_conservacion">
 										<option value="">Seleccione...</option>
-										<?php 
-										$temperaturas = ['Ambiente', 'Refrigerado (0-4°C)', 'Congelado (-18°C)', 'Fresco (10-15°C)'];
+										<?php 										
 										$tempActual = isset($producto) ? $producto->temperatura_conservacion : '';
 										foreach ($temperaturas as $temp): ?>
-											<option value="<?php echo $temp; ?>" <?php echo ($tempActual == $temp) ? 'selected' : ''; ?>>
-												<?php echo $temp; ?>
+											<option value="<?php echo $temp->id; ?>" <?php echo ($tempActual == $temp->valor) ? 'selected' : ''; ?>>
+												<?php echo $temp->nombre; ?>
 											</option>
 										<?php endforeach; ?>
 									</select>
@@ -467,11 +465,10 @@
 							<select class="form-select" id="talla" name="talla">
 								<option value="">Sin talla</option>
 								<?php 
-								$tallas = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', '36', '38', '40', '42', '44', '46', '48'];
 								$tallaActual = isset($producto) ? $producto->talla : '';
 								foreach ($tallas as $talla): ?>
-									<option value="<?php echo $talla; ?>" <?php echo ($tallaActual == $talla) ? 'selected' : ''; ?>>
-										<?php echo $talla; ?>
+									<option value="<?php echo $talla->id; ?>" <?php echo ($tallaActual == $talla->valor) ? 'selected' : ''; ?>>
+										<?php echo $talla->nombre; ?>
 									</option>
 								<?php endforeach; ?>
 							</select>
@@ -497,13 +494,12 @@
 						<div class="col-md-6">
 							<label for="genero" class="form-label fw-semibold">Género</label>
 							<select class="form-select" id="genero" name="genero">
-								<option value="">Sin especificar</option>
-								<?php 
-								$generos = ['hombre' => 'Hombre', 'mujer' => 'Mujer', 'unisex' => 'Unisex', 'niño' => 'Niño', 'niña' => 'Niña'];
+								<option value="">Seleccione</option>
+								<?php 								
 								$generoActual = isset($producto) ? $producto->genero : '';
 								foreach ($generos as $key => $val): ?>
-									<option value="<?php echo $key; ?>" <?php echo ($generoActual == $key) ? 'selected' : ''; ?>>
-										<?php echo $val; ?>
+									<option value="<?php echo $val->id; ?>" <?php echo ($generoActual == $val->valor) ? 'selected' : ''; ?>>
+										<?php echo $val->nombre; ?>
 									</option>
 								<?php endforeach; ?>
 							</select>
@@ -577,11 +573,10 @@
 							<select class="form-select" id="voltaje" name="voltaje">
 								<option value="">Sin especificar</option>
 								<?php 
-								$voltajes = ['110V', '220V', '110V-220V', 'USB', 'USB-C', 'Batería'];
 								$voltajeActual = isset($producto) ? $producto->voltaje : '';
 								foreach ($voltajes as $voltaje): ?>
-									<option value="<?php echo $voltaje; ?>" <?php echo ($voltajeActual == $voltaje) ? 'selected' : ''; ?>>
-										<?php echo $voltaje; ?>
+									<option value="<?php echo $voltaje->id; ?>" <?php echo ($voltajeActual == $voltaje->valor) ? 'selected' : ''; ?>>
+										<?php echo $voltaje->nombre; ?>
 									</option>
 								<?php endforeach; ?>
 							</select>

@@ -193,7 +193,7 @@ function inicializarTabla() {
 		responsive: true,
 		pageLength: 10,
 		lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
-		dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rtip'
+		dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 text-end"f>>rtip'
 	});
 }
 
