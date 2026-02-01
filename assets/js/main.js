@@ -2,21 +2,13 @@
 var valtoken = '';
 var varToken = 'token_app';
 var appversion = 'v1.0.78';
-var TABLECONFG = {
+var TABLA_CONFIGURACION = {
 	responsive: {
 		details: false
 	},
 	language: {
-		paginate: {
-			previous: 'Anterior',
-			next: 'Siguiente',
-		},
-		info: 'Pagina _START_ de _END_ de _TOTAL_ registros',
-		search: 'Buscar:',
-		emptyTable: 'No hay registros',
-		lengthMenu: 'Registros: _MENU_'
+		url: IP_SERVER + 'assets/datatables/es-ES.json'
 	},
-	// ordering:  false
 };
 $(function () {
 	window.alert = function (message) {
