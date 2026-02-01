@@ -655,7 +655,7 @@
 					<i class="bi bi-info-circle me-1"></i>Los campos marcados con <span class="text-danger">*</span> son obligatorios
 				</div>
 				<div class="d-flex gap-2">
-					<a href="<?php echo IP_SERVER . 'productos'; ?>" class="btn btn-outline-secondary">
+					<a href="<?php echo IP_SERVER . 'productos'; ?>" class="btn btn-outline-secondary btn-lg">
 						<i class="bi bi-x-circle me-1"></i>Cancelar
 					</a>
 					<button type="submit" class="btn btn-color_principal btn-lg">
