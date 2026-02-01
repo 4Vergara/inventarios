@@ -18,9 +18,7 @@ class Productos extends CI_Controller {
 	 * Crear nuevo producto
 	 */
 	public function crear() {
-		$data['categorias'] = $this->Configuraciones_model->findAll([
-			'id_padre' => 1,
-		]);
+		$data['categorias'] = $this->Configuraciones_model->obtenerCategoriasProductos();
 		$this->vista('productos/formulario', $data);
 	}
 
@@ -37,9 +35,7 @@ class Productos extends CI_Controller {
 			redirect('productos');
 		}
 		
-		$data['categorias'] = $this->Configuraciones_model->find([
-			'id_padre' => 1,
-		]);
+		$data['categorias'] = $this->Configuraciones_model->obtenerCategoriasProductos();
 		$this->vista('productos/formulario', $data);
 	}
 
@@ -56,7 +52,8 @@ class Productos extends CI_Controller {
 			redirect('productos');
 		}
 		
-		$data['categorias'] = $this->Productos_model->obtenerCategorias();
+		$data['categorias'] = $this->Configuraciones_model->obtenerCategoriasProductos();
+
 		$this->vista('productos/ver', $data);
 	}
 

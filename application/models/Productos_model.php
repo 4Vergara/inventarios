@@ -16,19 +16,6 @@ class Productos_model extends MY_Model {
 	}
 	
 	/**
-	 * Obtener todas las categorías activas
-	 * @return array
-	 */
-	public function obtenerCategorias() {
-		return $this->db->from('configuraciones')
-			->where('tipo', 'categoria_producto')
-			->where('estado', 'activo')
-			->order_by('nombre', 'ASC')
-			->get()
-			->result();
-	}
-	
-	/**
 	 * Guardar un nuevo producto
 	 * @param array $data
 	 * @return int|false

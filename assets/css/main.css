@@ -452,6 +452,28 @@ h1, h2, h3, h4, h5, h6 {
 	background-color: #fef3c7 !important;
 }
 
+/* ==========================================
+   Estilos para select con optgroup (categorías)
+   ========================================== */
+.form-select optgroup {
+	font-weight: 700;
+	font-style: normal;
+	color: var(--color_principal-700);
+	background-color: #f8f9fa;
+	padding: 8px 0;
+}
+
+.form-select optgroup option {
+	font-weight: 400;
+	color: #333;
+	padding-left: 15px;
+	background-color: #fff;
+}
+
+.form-select optgroup option:hover {
+	background-color: var(--color_principal-50);
+}
+
 .tarjeta_tab {
 	background-color: #ffffff;
 	border: 1px solid var(--color_principal-200);

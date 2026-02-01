@@ -85,10 +85,22 @@
 							<select class="form-select" id="id_categoria" name="id_categoria" required>
 								<option value="">Seleccione una categoría</option>
 								<?php if (isset($categorias) && !empty($categorias)): ?>
-									<?php foreach ($categorias as $cat): ?>
-										<option value="<?php echo $cat->id; ?>" <?php echo (isset($producto) && $producto->id_categoria == $cat->id) ? 'selected' : ''; ?>>
-											<?php echo $cat->nombre; ?>
-										</option>
+									<?php foreach ($categorias as $grupo): ?>
+										<?php if (!empty($grupo['subcategorias'])): ?>
+											<!-- Categoría principal como optgroup -->
+											<optgroup label="<?php echo $grupo['categoria']->nombre; ?>">
+												<?php foreach ($grupo['subcategorias'] as $subcat): ?>
+													<option value="<?php echo $subcat->id; ?>" <?php echo (isset($producto) && $producto->id_categoria == $subcat->id) ? 'selected' : ''; ?>>
+														<?php echo $subcat->nombre; ?>
+													</option>
+												<?php endforeach; ?>
+											</optgroup>
+										<?php else: ?>
+											<!-- Si no tiene subcategorías, mostrar la categoría principal como opción -->
+											<option value="<?php echo $grupo['categoria']->id; ?>" <?php echo (isset($producto) && $producto->id_categoria == $grupo['categoria']->id) ? 'selected' : ''; ?>>
+												<?php echo $grupo['categoria']->nombre; ?>
+											</option>
+										<?php endif; ?>
 									<?php endforeach; ?>
 								<?php endif; ?>
 							</select>
