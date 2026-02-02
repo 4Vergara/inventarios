@@ -263,10 +263,10 @@
 						
 						<!-- Unidad de Medida -->
 						<div class="col-md-6 col-lg-3">
-							<label for="unidad_medida" class="form-label fw-semibold">Unidad de Medida</label>
-							<select class="form-select" id="unidad_medida" name="unidad_medida">
+							<label for="id_unidad_medida" class="form-label fw-semibold">Unidad de Medida</label>
+							<select class="form-select" id="id_unidad_medida" name="id_unidad_medida">
 								<?php 
-								$unidadActual = isset($producto) ? $producto->unidad_medida : 'unidad';
+								$unidadActual = isset($producto) ? $producto->id_unidad_medida : 'unidad';
 								foreach ($unidades as $unidad): ?>
 									<option value="<?php echo $unidad->id; ?>" <?php echo ($unidadActual == $unidad->valor) ? 'selected' : ''; ?>>
 										<?php echo ucfirst($unidad->nombre); ?>
@@ -414,11 +414,11 @@
 								
 								<!-- Temperatura de conservación -->
 								<div class="col-md-6">
-									<label for="temperatura_conservacion" class="form-label fw-semibold">Temperatura de Conservación</label>
-									<select class="form-select" id="temperatura_conservacion" name="temperatura_conservacion">
+									<label for="id_temperatura_conservacion" class="form-label fw-semibold">Temperatura de Conservación</label>
+									<select class="form-select" id="id_temperatura_conservacion" name="id_temperatura_conservacion">
 										<option value="">Seleccione...</option>
 										<?php 										
-										$tempActual = isset($producto) ? $producto->temperatura_conservacion : '';
+										$tempActual = isset($producto) ? $producto->id_temperatura_conservacion : '';
 										foreach ($temperaturas as $temp): ?>
 											<option value="<?php echo $temp->id; ?>" <?php echo ($tempActual == $temp->valor) ? 'selected' : ''; ?>>
 												<?php echo $temp->nombre; ?>
@@ -461,11 +461,11 @@
 					<div class="row g-3">
 						<!-- Talla -->
 						<div class="col-md-6 col-lg-4">
-							<label for="talla" class="form-label fw-semibold">Talla</label>
-							<select class="form-select" id="talla" name="talla">
+							<label for="id_talla" class="form-label fw-semibold">Talla</label>
+							<select class="form-select" id="id_talla" name="id_talla">
 								<option value="">Sin talla</option>
 								<?php 
-								$tallaActual = isset($producto) ? $producto->talla : '';
+								$tallaActual = isset($producto) ? $producto->id_talla : '';
 								foreach ($tallas as $talla): ?>
 									<option value="<?php echo $talla->id; ?>" <?php echo ($tallaActual == $talla->valor) ? 'selected' : ''; ?>>
 										<?php echo $talla->nombre; ?>
@@ -492,11 +492,11 @@
 						
 						<!-- Género -->
 						<div class="col-md-6">
-							<label for="genero" class="form-label fw-semibold">Género</label>
-							<select class="form-select" id="genero" name="genero">
+							<label for="id_genero" class="form-label fw-semibold">Género</label>
+							<select class="form-select" id="id_genero" name="id_genero">
 								<option value="">Seleccione</option>
 								<?php 								
-								$generoActual = isset($producto) ? $producto->genero : '';
+								$generoActual = isset($producto) ? $producto->id_genero : '';
 								foreach ($generos as $key => $val): ?>
 									<option value="<?php echo $val->id; ?>" <?php echo ($generoActual == $val->valor) ? 'selected' : ''; ?>>
 										<?php echo $val->nombre; ?>
@@ -569,11 +569,11 @@
 						
 						<!-- Voltaje -->
 						<div class="col-md-6 col-lg-3">
-							<label for="voltaje" class="form-label fw-semibold">Voltaje</label>
-							<select class="form-select" id="voltaje" name="voltaje">
+							<label for="id_voltaje" class="form-label fw-semibold">Voltaje</label>
+							<select class="form-select" id="id_voltaje" name="id_voltaje">
 								<option value="">Sin especificar</option>
 								<?php 
-								$voltajeActual = isset($producto) ? $producto->voltaje : '';
+								$voltajeActual = isset($producto) ? $producto->id_voltaje : '';
 								foreach ($voltajes as $voltaje): ?>
 									<option value="<?php echo $voltaje->id; ?>" <?php echo ($voltajeActual == $voltaje->valor) ? 'selected' : ''; ?>>
 										<?php echo $voltaje->nombre; ?>

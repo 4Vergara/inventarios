@@ -36,7 +36,8 @@ class Productos extends CI_Controller {
 			redirect('productos');
 		}
 		
-		$data['producto'] = $this->Productos_model->find($id);
+		$data['producto'] = $this->Productos_model->obtenerPorIdConDetalles($id);
+		
 		if (!$data['producto']) {
 			redirect('productos');
 		}
@@ -58,7 +59,7 @@ class Productos extends CI_Controller {
 			redirect('productos');
 		}
 		
-		$data['producto'] = $this->Productos_model->find($id);
+		$data['producto'] = $this->Productos_model->obtenerPorIdConDetalles($id);
 		if (!$data['producto']) {
 			redirect('productos');
 		}
@@ -110,7 +111,7 @@ class Productos extends CI_Controller {
 			'porcentaje_impuesto' => $this->input->post('porcentaje_impuesto') ?: 0,
 			'stock_actual' => $this->input->post('stock_actual') ?: 0,
 			'stock_minimo' => $this->input->post('stock_minimo') ?: 5,
-			'unidad_medida' => $this->input->post('unidad_medida') ?: 'unidad',
+			'id_unidad_medida' => $this->input->post('id_unidad_medida') ?: 'unidad',
 			'estado' => $this->input->post('estado') ?: 'activo',
 			'peso_kg' => $this->input->post('peso_kg') ?: null,
 			'ancho_cm' => $this->input->post('ancho_cm') ?: null,
@@ -122,17 +123,17 @@ class Productos extends CI_Controller {
 			'fecha_elaboracion' => $this->input->post('fecha_elaboracion') ?: null,
 			'ingredientes' => $this->input->post('ingredientes') ?: null,
 			'info_nutricional' => $this->input->post('info_nutricional') ?: null,
-			'temperatura_conservacion' => $this->input->post('temperatura_conservacion') ?: null,
-			'talla' => $this->input->post('talla') ?: null,
+			'id_temperatura_conservacion' => $this->input->post('id_temperatura_conservacion') ?: null,
+			'id_talla' => $this->input->post('id_talla') ?: null,
 			'color' => $this->input->post('color') ?: null,
 			'material_principal' => $this->input->post('material_principal') ?: null,
-			'genero' => $this->input->post('genero') ?: null,
+			'id_genero' => $this->input->post('id_genero') ?: null,
 			'estilo_corte' => $this->input->post('estilo_corte') ?: null,
 			'modelo_tecnico' => $this->input->post('modelo_tecnico') ?: null,
 			'numero_serie' => $this->input->post('numero_serie') ?: null,
 			'garantia_meses' => $this->input->post('garantia_meses') ?: 0,
 			'consumo_watts' => $this->input->post('consumo_watts') ?: null,
-			'voltaje' => $this->input->post('voltaje') ?: null,
+			'id_voltaje' => $this->input->post('id_voltaje') ?: null,
 			'es_inteligente' => $this->input->post('es_inteligente') ? 1 : 0,
 			'especificaciones_extra' => $this->input->post('especificaciones_extra') ?: null
 		];

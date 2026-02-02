@@ -475,10 +475,3 @@ h1, h2, h3, h4, h5, h6 {
 	background-color: var(--color_principal-50);
 }
 
-.tarjeta_tab {
-	background-color: #ffffff;
-	border: 1px solid var(--color_principal-200);
-	border-radius: 0.375rem;
-	padding: 1rem;
-	margin-top: 1rem;
-}

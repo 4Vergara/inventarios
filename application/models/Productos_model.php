@@ -182,4 +182,27 @@ class Productos_model extends MY_Model {
 		
 		return $this->update($id, ['stock_actual' => $nuevoStock]);
 	}
+
+    /**
+     * ? Traer un producto por su ID con detalles adicionales
+     * @param int $id
+     * @return array
+     */
+    public function obtenerPorIdConDetalles($id) {
+        return $this->db->select('p.*,
+            um.nombre AS unidad_medida,
+            t.nombre AS talla,
+            temp.nombre AS temperatura_conservacion,
+            g.nombre AS genero,
+            v.nombre AS voltaje')
+            ->from("$this->table AS p")
+            ->join('configuraciones AS um', 'p.id_unidad_medida = um.id', 'left')
+            ->join('configuraciones AS t', 'p.id_talla = t.id', 'left')
+            ->join('configuraciones AS temp', 'p.id_temperatura_conservacion = temp.id', 'left')
+            ->join('configuraciones AS g', 'p.id_genero = g.id', 'left')
+            ->join('configuraciones AS v', 'p.id_voltaje = v.id', 'left')
+            ->where('p.id', $id)
+            ->get()
+            ->row();
+    }
 }
