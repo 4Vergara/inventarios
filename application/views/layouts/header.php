@@ -57,7 +57,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link">
+						<a href="<?php echo IP_SERVER . 'ventas'; ?>" class="nav-link <?php echo ($this->uri->segment(1) == 'ventas') ? 'active' : ''; ?>">
 							<i class="bi bi-cart-fill"></i>
 							<span class="nav-text">Pedidos</span>
 						</a>
