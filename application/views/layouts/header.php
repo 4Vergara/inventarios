@@ -114,13 +114,6 @@
 				<button class="sidebar-toggle-btn" id="sidebarToggle" title="Contraer/Expandir menú">
 					<i class="bi bi-list"></i>
 				</button>
-				<!-- Breadcrumb -->
-				<nav aria-label="breadcrumb" class="d-none d-md-block">
-					<ol class="breadcrumb mb-0">
-						<li class="breadcrumb-item"><span class="text-muted small">ADMIN</span></li>
-						<li class="breadcrumb-item active small">OVERVIEW</li>
-					</ol>
-				</nav>
 			</div>
 
 			<div class="header-center">
@@ -144,7 +137,7 @@
 					<button class="user-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 						<div class="user-info d-none d-md-block">
 							<span class="user-name"><?php echo isset($this->session->datosusuario->nombre_completo) ? $this->session->datosusuario->nombre_completo : 'Usuario'; ?></span>
-							<span class="user-role">Administrador</span>
+							<span class="user-role"><?php echo isset($this->session->datosusuario->rol) ? $this->session->datosusuario->rol : ''; ?></span>
 						</div>
 						<div class="user-avatar">
 							<i class="bi bi-person-fill"></i>

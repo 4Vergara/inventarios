@@ -19,7 +19,7 @@ class Login extends CI_Controller {
 
 			//? Encriptar la contraseña
 			$contrasena_encrypted = hash('sha256', $this->formData->contrasena . KEY_ALGO);
-			$usuario = $this->Usuarios_model->findName('correo', $this->formData->correo);
+			$usuario = $this->Usuarios_model->usuario_correo($this->formData->correo);
 
 			//? Validar si el usuario existe
 			if(isset($usuario)){
