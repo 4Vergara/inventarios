@@ -93,7 +93,7 @@
 	</div>
 	
 	<div class="card-body p-0">
-		<div class="table-responsive">
+		<div class="table-responsive p-3">
 			<table id="tablaProductos" class="table table-modern align-middle mb-0">
 				<thead>
 					<tr>
@@ -408,6 +408,125 @@
 	border-color: #fca5a5;
 	color: #dc2626;
 	background: #fef2f2;
+}
+
+/* DataTable - Quitar scroll vertical y horizontal */
+.table-responsive {
+	overflow: visible !important;
+}
+#tablaProductos_wrapper,
+.dt-container {
+	overflow: visible !important;
+}
+.dataTables_scrollBody,
+.dt-scroll-body {
+	overflow: visible !important;
+	max-height: none !important;
+}
+.dt-scroll {
+	overflow: visible !important;
+}
+
+/* DataTable - Buscador al lado derecho */
+#tablaProductos_filter,
+.dt-search {
+	text-align: right !important;
+	float: right !important;
+}
+#tablaProductos_filter input,
+.dt-search input {
+	padding: 8px 14px !important;
+	border: 1px solid #e5e7eb !important;
+	border-radius: 8px !important;
+	font-size: 0.875rem !important;
+	transition: all 0.2s ease !important;
+	margin-left: 8px !important;
+}
+#tablaProductos_filter input:focus,
+.dt-search input:focus {
+	outline: none !important;
+	border-color: var(--color_principal-400) !important;
+	box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1) !important;
+}
+
+/* DataTable - Paginación personalizada */
+.dataTables_paginate,
+.dt-paging {
+	display: flex !important;
+	justify-content: flex-end !important;
+	gap: 4px !important;
+	padding-top: 10px !important;
+}
+.dataTables_paginate .paginate_button,
+.dt-paging .dt-paging-button {
+	padding: 8px 14px !important;
+	border: 1px solid #e5e7eb !important;
+	border-radius: 8px !important;
+	background: #ffffff !important;
+	color: #6b7280 !important;
+	font-size: 0.875rem !important;
+	font-weight: 500 !important;
+	cursor: pointer !important;
+	transition: all 0.2s ease !important;
+	margin: 0 2px !important;
+}
+.dataTables_paginate .paginate_button:hover:not(.disabled):not(.current),
+.dt-paging .dt-paging-button:hover:not(.disabled):not(.current) {
+	background: var(--color_principal-50) !important;
+	border-color: var(--color_principal-300) !important;
+	color: var(--color_principal-600) !important;
+}
+.dataTables_paginate .paginate_button.current,
+.dt-paging .dt-paging-button.current {
+	background: var(--color_principal-500) !important;
+	border-color: var(--color_principal-500) !important;
+	color: #ffffff !important;
+}
+.dataTables_paginate .paginate_button.disabled,
+.dt-paging .dt-paging-button.disabled {
+	opacity: 0.5 !important;
+	cursor: not-allowed !important;
+	background: #f9fafb !important;
+	color: #9ca3af !important;
+}
+.dataTables_paginate .paginate_button.previous,
+.dataTables_paginate .paginate_button.next,
+.dt-paging .dt-paging-button.previous,
+.dt-paging .dt-paging-button.next {
+	font-weight: 600 !important;
+}
+
+/* DataTable - Información y selector de registros */
+.dataTables_info,
+.dt-info {
+	color: #6b7280 !important;
+	font-size: 0.875rem !important;
+	padding-top: 12px !important;
+}
+.dataTables_length select,
+.dt-length select,
+.dt-input {
+	padding: 6px 30px 6px 12px !important;
+	border: 1px solid #e5e7eb !important;
+	border-radius: 8px !important;
+	font-size: 0.875rem !important;
+	margin: 0 8px !important;
+	cursor: pointer !important;
+	transition: all 0.2s ease !important;
+}
+.dataTables_length select:focus,
+.dt-length select:focus,
+.dt-input:focus {
+	outline: none !important;
+	border-color: var(--color_principal-400) !important;
+}
+
+/* DataTable - Layout rows padding */
+.dt-layout-row {
+	padding: 10px 15px !important;
+}
+.dt-layout-table {
+	padding: 0 !important;
 }
 </style>
 
