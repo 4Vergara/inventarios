@@ -637,6 +637,9 @@ function inicializarTabla() {
 				render: function(data, type, row) {
 					return `
 						<div class="action-buttons">
+							<a href="${IP_SERVER}productos/ver/${data}" class="action-btn" title="Ver detalle">
+								<i class="bi bi-eye"></i>
+							</a>
 							<a href="${IP_SERVER}productos/editar/${data}" class="action-btn" title="Editar">
 								<i class="bi bi-pencil"></i>
 							</a>
