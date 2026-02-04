@@ -70,6 +70,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Sidebar Contraído */
 .sidebar.collapsed {
 	width: var(--sidebar-collapsed-width) !important;
+	overflow-x: hidden !important;
 }
 
 .sidebar.collapsed .sidebar-brand,
@@ -78,10 +79,12 @@ h1, h2, h3, h4, h5, h6 {
 	opacity: 0 !important;
 	visibility: hidden !important;
 	width: 0 !important;
+	overflow: hidden !important;
 }
 
 .sidebar.collapsed .logo-container {
 	justify-content: center !important;
+	overflow: hidden !important;
 }
 
 .sidebar.collapsed .nav-link {
