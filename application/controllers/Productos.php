@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Productos extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
+		
+		// Verificar si hay sesión activa
+		if (!isset($this->session->datosusuario) || empty($this->session->datosusuario)) {
+			redirect('login');
+		}
+		
 		$this->load->model('Productos_model');
 		$this->load->model('Configuraciones_model');
 	}
