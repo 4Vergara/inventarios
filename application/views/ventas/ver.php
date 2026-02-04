@@ -89,7 +89,7 @@
 		<div class="card mb-4">
 			<div class="card-header bg-white d-flex justify-content-between align-items-center">
 				<h5 class="mb-0"><i class="bi bi-box-seam me-2"></i>Productos Vendidos</h5>
-				<span class="badge bg-primary rounded-pill"><?php echo count($venta->detalles); ?> productos</span>
+				<span class="badge bg-color_principal rounded-pill"><?php echo count($venta->detalles); ?> productos</span>
 			</div>
 			<div class="card-body p-0">
 				<div class="table-responsive">
@@ -282,7 +282,7 @@
 					class="btn btn-outline-secondary w-100 mb-2">
 					<i class="bi bi-printer me-2"></i>Imprimir Ticket
 				</a>
-				<a href="<?php echo IP_SERVER . 'ventas/crear'; ?>" class="btn btn-outline-primary w-100">
+				<a href="<?php echo IP_SERVER . 'ventas/crear'; ?>" class="btn btn-color_principal w-100">
 					<i class="bi bi-plus-lg me-2"></i>Nueva Venta
 				</a>
 			</div>

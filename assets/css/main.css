@@ -1036,3 +1036,29 @@ h1, h2, h3, h4, h5, h6 {
 	background-color: var(--color_principal-50);
 }
 
+.bg-color_principal {
+	background-color: var(--color_principal-500) !important;
+	color: #ffffff !important;
+}
+
+/* ==========================================
+   Estilos para Breadcrumb (miga de pan)
+   ========================================== */
+.breadcrumb-item a {
+	color: var(--color_principal-500);
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.breadcrumb-item a:hover {
+	color: var(--color_principal-700);
+	text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+	color: #6c757d;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+	color: var(--color_principal-400);
+}
