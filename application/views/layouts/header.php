@@ -10,182 +10,168 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="DC.language" content="ES" />
 	<link rel="icon" type="image/png" href="<?php echo IP_SERVER . 'assets/imagen/icon_solo.png'; ?>" />
-	<link rel="stylesheet" href="<?php echo IP_SERVER . 'assets/css/main.css'; ?>">	
+	<!-- Bootstrap primero -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="stylesheet" href="<?php echo IP_SERVER . 'assets/datatables/datatables.min.css'; ?>">
+	<!-- Main CSS después para sobrescribir -->
+	<link rel="stylesheet" href="<?php echo IP_SERVER . 'assets/css/main.css'; ?>">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="<?php echo IP_SERVER . 'assets/datatables/datatables.min.js'; ?>"></script>
 	<script>
 		var IP_SERVER = '<?php echo IP_SERVER ?>';
 	</script>
 	<script src="<?php echo IP_SERVER . 'assets/js/main.js'; ?>"></script>
-	<style>
-		/* Header personalizado */
-		.header-navbar {
-			background: linear-gradient(135deg, var(--color_principal-500) 0%, var(--color_principal-600) 100%);
-			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-		}
-		.header-navbar .navbar-brand {
-			color: #fff;
-			font-weight: 600;
-			font-size: 1.3rem;
-		}
-		.header-navbar .navbar-brand:hover {
-			color: rgba(255, 255, 255, 0.9);
-		}
-		.header-navbar .nav-link {
-			color: rgba(255, 255, 255, 0.9) !important;
-			transition: all 0.3s ease;
-		}
-		.header-navbar .nav-link:hover {
-			color: #fff !important;
-			background: rgba(255, 255, 255, 0.1);
-			border-radius: 5px;
-		}
-		.user-badge {
-			background: rgba(255, 255, 255, 0.2);
-			border-radius: 25px;
-			padding: 5px 15px;
-			color: #fff;
-			font-size: 0.9rem;
-			display: flex;
-			align-items: center;
-			gap: 8px;
-		}
-		.user-badge .status-dot {
-			width: 10px;
-			height: 10px;
-			background: #4ade80;
-			border-radius: 50%;
-			animation: pulse 2s infinite;
-		}
-		@keyframes pulse {
-			0%, 100% { opacity: 1; }
-			50% { opacity: 0.5; }
-		}
-		.btn-logout {
-			background: rgba(255, 255, 255, 0.15);
-			border: 1px solid rgba(255, 255, 255, 0.3);
-			color: #fff;
-			border-radius: 20px;
-			padding: 5px 15px;
-			transition: all 0.3s ease;
-		}
-		.btn-logout:hover {
-			background: rgba(255, 255, 255, 0.25);
-			color: #fff;
-			border-color: rgba(255, 255, 255, 0.5);
-		}
-		.logo-header {
-			height: 40px;
-			width: auto;
-		}
-		.main-content {
-			min-height: calc(100vh - 140px);
-			padding-top: 20px;
-			padding-bottom: 20px;
-			background-color: #f8f9fa;
-		}
-		.dropdown-menu {
-			border: none;
-			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-			border-radius: 10px;
-		}
-		.dropdown-item:hover {
-			background-color: var(--color_principal-50);
-			color: var(--color_principal-600);
-		}
-		.dropdown-item i {
-			width: 20px;
-		}
-	</style>
 </head>
-<body class="bg-light">
-	<!-- Header / Navbar -->
-	<nav class="navbar navbar-expand-lg header-navbar sticky-top">
-		<div class="container-fluid px-4">
-			<!-- Logo y nombre -->
-			<a class="navbar-brand d-flex align-items-center gap-2" href="<?php echo IP_SERVER; ?>">
-				<img src="<?php echo IP_SERVER . 'assets/imagen/icon_solo.png'; ?>" alt="Logo" class="logo-header">
-				<span>Saho</span>
-			</a>
-
-			<!-- Botón hamburguesa para móvil -->
-			<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-				<i class="bi bi-list text-white fs-4"></i>
+<body class="admin-layout">
+	<!-- Sidebar -->
+	<aside class="sidebar" id="sidebar">
+		<!-- Logo -->
+		<div class="sidebar-header">
+			<div class="logo-container">
+				<img src="<?php echo IP_SERVER . 'assets/imagen/icon_solo.png'; ?>" alt="Logo" class="sidebar-logo">
+				<span class="sidebar-brand">Saho</span>
+			</div>
+			<button class="sidebar-toggle-btn d-lg-none" id="sidebarClose">
+				<i class="bi bi-x-lg"></i>
 			</button>
+		</div>
 
-			<!-- Contenido del navbar -->
-			<div class="collapse navbar-collapse" id="navbarContent">
-				<!-- Menú de navegación -->
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+		<!-- Menu Principal -->
+		<nav class="sidebar-nav">
+			<div class="nav-section">
+				<span class="nav-section-title">MENÚ PRINCIPAL</span>
+				<ul class="nav-list">
 					<li class="nav-item">
-						<a class="nav-link" href="<?php echo IP_SERVER; ?>">
-							<i class="bi bi-house-door me-1"></i> Inicio
+						<a href="<?php echo IP_SERVER; ?>" class="nav-link <?php echo ($this->uri->segment(1) == '' || $this->uri->segment(1) == 'home') ? 'active' : ''; ?>">
+							<i class="bi bi-grid-1x2-fill"></i>
+							<span class="nav-text">Dashboard</span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="<?php echo IP_SERVER . 'productos'; ?>">
-							<i class="bi bi-box-seam me-1"></i> Productos
+						<a href="<?php echo IP_SERVER . 'productos'; ?>" class="nav-link <?php echo ($this->uri->segment(1) == 'productos') ? 'active' : ''; ?>">
+							<i class="bi bi-box-seam-fill"></i>
+							<span class="nav-text">Inventario</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="bi bi-cart-fill"></i>
+							<span class="nav-text">Pedidos</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="bi bi-people-fill"></i>
+							<span class="nav-text">Clientes</span>
 						</a>
 					</li>
 				</ul>
+			</div>
 
-				<!-- Usuario activo y opciones -->
-				<div class="d-flex align-items-center gap-3">
-					<?php if (isset($this->session->datosusuario) && $this->session->datosusuario): ?>
-						<!-- Badge de usuario activo -->
-						<div class="user-badge d-none d-md-flex">
-							<span class="status-dot"></span>
-							<span>Activo</span>
-						</div>
-
-						<!-- Dropdown de usuario -->
-						<div class="dropdown">
-							<button class="btn btn-logout dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-								<i class="bi bi-person-circle me-1"></i>
-								<?php echo isset($this->session->datosusuario->nombre_completo) ? $this->session->datosusuario->nombre_completo : 'Usuario'; ?>
-							</button>
-							<ul class="dropdown-menu dropdown-menu-end">
-								<li>
-									<span class="dropdown-item-text text-muted small">
-										<i class="bi bi-envelope me-2"></i>
-										<?php echo isset($this->session->datosusuario->correo) ? $this->session->datosusuario->correo : ''; ?>
-									</span>
-								</li>
-								<li><hr class="dropdown-divider"></li>
-								<li>
-									<a class="dropdown-item" href="#">
-										<i class="bi bi-person me-2"></i> Mi Perfil
-									</a>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#">
-										<i class="bi bi-gear me-2"></i> Configuración
-									</a>
-								</li>
-								<li><hr class="dropdown-divider"></li>
-								<li>
-									<a class="dropdown-item text-danger" href="<?php echo IP_SERVER . 'login/salir'; ?>">
-										<i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
-									</a>
-								</li>
-							</ul>
-						</div>
-					<?php else: ?>
-						<!-- Botón de iniciar sesión -->
-						<a href="<?php echo IP_SERVER . 'login'; ?>" class="btn btn-logout">
-							<i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
+			<div class="nav-section">
+				<span class="nav-section-title">OPERACIONES</span>
+				<ul class="nav-list">
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="bi bi-receipt"></i>
+							<span class="nav-text">Facturación</span>
 						</a>
-					<?php endif; ?>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link">
+							<i class="bi bi-graph-up"></i>
+							<span class="nav-text">Reportes</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<!-- Botón Nuevo Producto -->
+		<div class="sidebar-footer">
+			<a href="<?php echo IP_SERVER . 'productos/crear'; ?>" class="btn-new-product">
+				<i class="bi bi-plus-lg"></i>
+				<span class="nav-text">Nuevo Producto</span>
+			</a>
+			<a href="#" class="nav-link settings-link">
+				<i class="bi bi-gear-fill"></i>
+				<span class="nav-text">Configuración</span>
+			</a>
+		</div>
+	</aside>
+
+	<!-- Overlay para móvil -->
+	<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+	<!-- Contenedor Principal -->
+	<div class="main-wrapper" id="mainWrapper">
+		<!-- Top Header -->
+		<header class="top-header">
+			<div class="header-left">
+				<button class="sidebar-toggle-btn" id="sidebarToggle" title="Contraer/Expandir menú">
+					<i class="bi bi-list"></i>
+				</button>
+				<!-- Breadcrumb -->
+				<nav aria-label="breadcrumb" class="d-none d-md-block">
+					<ol class="breadcrumb mb-0">
+						<li class="breadcrumb-item"><span class="text-muted small">ADMIN</span></li>
+						<li class="breadcrumb-item active small">OVERVIEW</li>
+					</ol>
+				</nav>
+			</div>
+
+			<div class="header-center">
+				<!-- Search -->
+				<div class="search-container">
+					<i class="bi bi-search search-icon"></i>
+					<input type="text" class="search-input" placeholder="Buscar...">
 				</div>
 			</div>
-		</div>
-	</nav>
 
-	<!-- Contenido principal -->
-	<main class="main-content">
-		<div class="container-fluid px-4">
+			<div class="header-right">
+				<!-- Notificaciones -->
+				<button class="header-icon-btn">
+					<i class="bi bi-bell"></i>
+					<span class="notification-badge">3</span>
+				</button>
+
+				<!-- Usuario -->
+				<?php if (isset($this->session->datosusuario) && $this->session->datosusuario): ?>
+				<div class="dropdown user-dropdown">
+					<button class="user-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<div class="user-info d-none d-md-block">
+							<span class="user-name"><?php echo isset($this->session->datosusuario->nombre_completo) ? $this->session->datosusuario->nombre_completo : 'Usuario'; ?></span>
+							<span class="user-role">Administrador</span>
+						</div>
+						<div class="user-avatar">
+							<i class="bi bi-person-fill"></i>
+						</div>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end">
+						<li>
+							<div class="dropdown-header">
+								<strong><?php echo isset($this->session->datosusuario->nombre_completo) ? $this->session->datosusuario->nombre_completo : 'Usuario'; ?></strong>
+								<small class="text-muted d-block"><?php echo isset($this->session->datosusuario->correo) ? $this->session->datosusuario->correo : ''; ?></small>
+							</div>
+						</li>
+						<li><hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Mi Perfil</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configuración</a></li>
+						<li><hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item text-danger" href="<?php echo IP_SERVER . 'login/salir'; ?>"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a></li>
+					</ul>
+				</div>
+				<?php else: ?>
+				<a href="<?php echo IP_SERVER . 'login'; ?>" class="btn btn-sm btn-primary-custom">
+					<i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
+				</a>
+				<?php endif; ?>
+			</div>
+		</header>
+
+		<!-- Contenido Principal -->
+		<main class="main-content">
+			<div class="content-wrapper">
