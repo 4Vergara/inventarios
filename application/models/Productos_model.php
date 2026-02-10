@@ -205,4 +205,13 @@ class Productos_model extends MY_Model {
             ->get()
             ->row();
     }
+	
+	/**
+	 * Contar total de productos
+	 * 
+	 * @return int
+	 */
+	public function contar() {
+		return $this->db->from($this->table)->count_all_results();
+	}
 }

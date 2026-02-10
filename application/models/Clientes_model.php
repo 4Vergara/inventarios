@@ -177,4 +177,13 @@ class Clientes_model extends MY_Model {
 			->get()
 			->result();
 	}
+	
+	/**
+	 * Contar total de clientes
+	 * 
+	 * @return int
+	 */
+	public function contar() {
+		return $this->db->from($this->table)->count_all_results();
+	}
 }

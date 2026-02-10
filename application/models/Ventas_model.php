@@ -503,4 +503,13 @@ class Ventas_model extends MY_Model {
 			->get()
 			->result();
 	}
+	
+	/**
+	 * Contar total de ventas
+	 * 
+	 * @return int
+	 */
+	public function contar() {
+		return $this->db->from($this->table)->count_all_results();
+	}
 }
