@@ -405,11 +405,15 @@ function editarCliente(id) {
 				});
 			}
 		},
-		error: function() {
+		error: function(xhr) {
+			let mensaje = 'No se pudo obtener los datos del cliente';
+			if (xhr.responseJSON && xhr.responseJSON.message) {
+				mensaje = xhr.responseJSON.message;
+			}
 			Swal.fire({
 				icon: 'error',
 				title: 'Error',
-				text: 'No se pudo obtener los datos del cliente'
+				text: mensaje
 			});
 		}
 	});
@@ -459,11 +463,15 @@ function guardarCliente() {
 				});
 			}
 		},
-		error: function() {
+		error: function(xhr) {
+			let mensaje = 'Ocurrió un error al guardar el cliente';
+			if (xhr.responseJSON && xhr.responseJSON.message) {
+				mensaje = xhr.responseJSON.message;
+			}
 			Swal.fire({
 				icon: 'error',
 				title: 'Error',
-				text: 'Ocurrió un error al guardar el cliente'
+				text: mensaje
 			});
 		}
 	});
@@ -500,11 +508,15 @@ function confirmarEliminar() {
 				});
 			}
 		},
-		error: function() {
+		error: function(xhr) {
+			let mensaje = 'Ocurrió un error al procesar la solicitud';
+			if (xhr.responseJSON && xhr.responseJSON.message) {
+				mensaje = xhr.responseJSON.message;
+			}
 			Swal.fire({
 				icon: 'error',
 				title: 'Error',
-				text: 'Ocurrió un error al procesar la solicitud'
+				text: mensaje
 			});
 		}
 	});

@@ -32,19 +32,6 @@ class Clientes extends CI_Controller {
 			: 'Sistema';
 	}
 	
-	/**
-	 * Respuesta JSON estandarizada
-	 * 
-	 * @param array $data
-	 * @param int $statusCode
-	 */
-	private function jsonResponse($data, $statusCode = 200) {
-		$this->output
-			->set_status_header($statusCode)
-			->set_content_type('application/json')
-			->set_output(json_encode($data));
-	}
-	
 	// ==========================================
 	// SECCIÓN: VISTAS
 	// ==========================================
@@ -86,7 +73,7 @@ class Clientes extends CI_Controller {
 	public function listar() {
 		$clientes = $this->Clientes_model->listarConEstadisticas();
 		
-		$this->jsonResponse([
+		$this->json([
 			'success' => true,
 			'data' => $clientes
 		]);
@@ -99,13 +86,13 @@ class Clientes extends CI_Controller {
 	 */
 	public function historial($id = null) {
 		if (!$id) {
-			$this->jsonResponse(['success' => false, 'message' => 'ID de cliente requerido'], 400);
+			$this->json(['success' => false, 'message' => 'ID de cliente requerido']);
 			return;
 		}
 		
 		$compras = $this->Clientes_model->obtenerHistorialCompras($id);
 		
-		$this->jsonResponse([
+		$this->json([
 			'success' => true,
 			'data' => $compras
 		]);
@@ -118,13 +105,13 @@ class Clientes extends CI_Controller {
 		$termino = $this->input->post('termino');
 		
 		if (strlen($termino) < 2) {
-			$this->jsonResponse(['success' => true, 'data' => []]);
+			$this->json(['success' => true, 'data' => []]);
 			return;
 		}
 		
 		$clientes = $this->Clientes_model->buscar($termino);
 		
-		$this->jsonResponse([
+		$this->json([
 			'success' => true,
 			'data' => $clientes
 		]);
@@ -147,18 +134,18 @@ class Clientes extends CI_Controller {
 		
 		// Validaciones
 		if (empty($nombre)) {
-			$this->jsonResponse(['success' => false, 'message' => 'El nombre es requerido'], 400);
+			$this->json(['success' => false, 'message' => 'El nombre es requerido']);
 			return;
 		}
 		
 		if (empty($documento)) {
-			$this->jsonResponse(['success' => false, 'message' => 'El número de documento es requerido'], 400);
+			$this->json(['success' => false, 'message' => 'El número de documento es requerido']);
 			return;
 		}
 		
 		// Verificar si el documento ya existe
 		if ($this->Clientes_model->documentoExiste($documento, $id)) {
-			$this->jsonResponse(['success' => false, 'message' => 'Ya existe un cliente con este número de documento'], 400);
+			$this->json(['success' => false, 'message' => 'Ya existe un cliente con este número de documento']);
 			return;
 		}
 		
@@ -204,7 +191,7 @@ class Clientes extends CI_Controller {
 			$response['message'] = 'Error al guardar el cliente';
 		}
 		
-		$this->jsonResponse($response, $response['success'] ? 200 : 500);
+		$this->json($response, $response['success'] ? 200 : 500);
 	}
 	
 	/**
@@ -214,17 +201,17 @@ class Clientes extends CI_Controller {
 	 */
 	public function eliminar($id = null) {
 		if (!$id) {
-			$this->jsonResponse(['success' => false, 'message' => 'ID de cliente requerido'], 400);
+			$this->json(['success' => false, 'message' => 'ID de cliente requerido']);
 			return;
 		}
 		
 		// Verificar si tiene compras asociadas
 		$stats = $this->Clientes_model->obtenerEstadisticas($id);
 		if ($stats->total_compras > 0) {
-			$this->jsonResponse([
+			$this->json([
 				'success' => false, 
 				'message' => 'No se puede eliminar el cliente porque tiene compras asociadas'
-			], 400);
+			]);
 			return;
 		}
 		
@@ -232,13 +219,13 @@ class Clientes extends CI_Controller {
 			$result = $this->db->where('id', $id)->delete('clientes');
 			
 			if ($result) {
-				$this->jsonResponse(['success' => true, 'message' => 'Cliente eliminado correctamente']);
+				$this->json(['success' => true, 'message' => 'Cliente eliminado correctamente']);
 			} else {
-				$this->jsonResponse(['success' => false, 'message' => 'Error al eliminar el cliente'], 500);
+				$this->json(['success' => false, 'message' => 'Error al eliminar el cliente']);
 			}
 		} catch (Exception $e) {
 			log_message('error', 'Error al eliminar cliente: ' . $e->getMessage());
-			$this->jsonResponse(['success' => false, 'message' => 'Error al eliminar el cliente'], 500);
+			$this->json(['success' => false, 'message' => 'Error al eliminar el cliente']);
 		}
 	}
 	
@@ -249,16 +236,16 @@ class Clientes extends CI_Controller {
 	 */
 	public function obtener($id = null) {
 		if (!$id) {
-			$this->jsonResponse(['success' => false, 'message' => 'ID de cliente requerido'], 400);
+			$this->json(['success' => false, 'message' => 'ID de cliente requerido']);
 			return;
 		}
 		
 		$cliente = $this->Clientes_model->find($id);
 		
 		if ($cliente) {
-			$this->jsonResponse(['success' => true, 'data' => $cliente]);
+			$this->json(['success' => true, 'data' => $cliente]);
 		} else {
-			$this->jsonResponse(['success' => false, 'message' => 'Cliente no encontrado'], 404);
+			$this->json(['success' => false, 'message' => 'Cliente no encontrado']);
 		}
 	}
 	
@@ -271,17 +258,17 @@ class Clientes extends CI_Controller {
 		
 		// Validaciones básicas
 		if (empty($nombre) || empty($documento)) {
-			$this->jsonResponse([
+			$this->json([
 				'success' => false, 
 				'message' => 'Nombre y número de documento son requeridos'
-			], 400);
+			]);
 			return;
 		}
 		
 		// Verificar si ya existe
 		$clienteExistente = $this->Clientes_model->buscarPorDocumento($documento);
 		if ($clienteExistente) {
-			$this->jsonResponse([
+			$this->json([
 				'success' => true, 
 				'message' => 'Cliente encontrado',
 				'cliente' => $clienteExistente,
@@ -301,14 +288,14 @@ class Clientes extends CI_Controller {
 		
 		if ($nuevoId) {
 			$cliente = $this->Clientes_model->find($nuevoId);
-			$this->jsonResponse([
+			$this->json([
 				'success' => true, 
 				'message' => 'Cliente registrado correctamente',
 				'cliente' => $cliente,
 				'existente' => false
 			]);
 		} else {
-			$this->jsonResponse(['success' => false, 'message' => 'Error al registrar el cliente'], 500);
+			$this->json(['success' => false, 'message' => 'Error al registrar el cliente']);
 		}
 	}
 }
