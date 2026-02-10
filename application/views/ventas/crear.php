@@ -46,7 +46,7 @@
 		<div class="card">
 			<div class="card-header bg-white d-flex justify-content-between align-items-center">
 				<h5 class="mb-0"><i class="bi bi-cart3 me-2"></i>Productos en la Venta</h5>
-				<span class="badge bg-primary rounded-pill" id="cantidadItems">0</span>
+				<span class="badge badge-principal rounded-pill" id="cantidadItems">0</span>
 			</div>
 			<div class="card-body p-0">
 				<div class="table-responsive">
@@ -80,8 +80,11 @@
 	<div class="col-lg-4">
 		<!-- Datos del cliente -->
 		<div class="card mb-4">
-			<div class="card-header bg-white">
+			<div class="card-header bg-white d-flex justify-content-between align-items-center">
 				<h5 class="mb-0"><i class="bi bi-person me-2"></i>Datos de la Venta</h5>
+				<button type="button" class="btn btn-sm btn-outline-color_principal" onclick="abrirModalNuevoCliente()" title="Registrar nuevo cliente">
+					<i class="bi bi-person-plus me-1"></i>Nuevo
+				</button>
 			</div>
 			<div class="card-body">
 				<div class="mb-3">
@@ -788,6 +791,116 @@ function abrirBuscadorAvanzado() {
 			title: 'Catálogo',
 			text: 'Usa el buscador para encontrar productos'
 		});
+	});
+}
+
+// ==========================================
+// SECCIÓN: REGISTRO RÁPIDO DE CLIENTES
+// ==========================================
+
+let modalNuevoCliente;
+
+// Inicializar modal al cargar
+$(document).ready(function() {
+	// Agregar el modal al DOM si no existe
+	if ($('#modalNuevoCliente').length === 0) {
+		$('body').append(`
+			<div class="modal fade" id="modalNuevoCliente" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>Registrar Nuevo Cliente</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+						</div>
+						<div class="modal-body">
+							<form id="formNuevoCliente">
+								<div class="mb-3">
+									<label class="form-label fw-semibold">Nombre Completo <span class="text-danger">*</span></label>
+									<input type="text" class="form-control" id="nuevoClienteNombre" 
+										placeholder="Ingrese el nombre completo" required maxlength="200">
+								</div>
+								<div class="mb-3">
+									<label class="form-label fw-semibold">Número de Documento <span class="text-danger">*</span></label>
+									<input type="text" class="form-control" id="nuevoClienteDocumento" 
+										placeholder="Ingrese el número de documento" required maxlength="30">
+								</div>
+							</form>
+							<div class="alert alert-info d-flex align-items-center" role="alert">
+								<i class="bi bi-info-circle me-2"></i>
+								<small>El cliente se registrará automáticamente y quedará seleccionado para esta venta.</small>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+							<button type="button" class="btn btn-color_principal" onclick="guardarNuevoCliente()">
+								<i class="bi bi-check-lg me-1"></i>Registrar y Seleccionar
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		`);
+	}
+	modalNuevoCliente = new bootstrap.Modal(document.getElementById('modalNuevoCliente'));
+});
+
+function abrirModalNuevoCliente() {
+	$('#formNuevoCliente')[0].reset();
+	modalNuevoCliente.show();
+}
+
+function guardarNuevoCliente() {
+	let nombre = $('#nuevoClienteNombre').val().trim();
+	let documento = $('#nuevoClienteDocumento').val().trim();
+	
+	if (!nombre || !documento) {
+		Swal.fire('Atención', 'El nombre y el número de documento son requeridos', 'warning');
+		return;
+	}
+	
+	// Mostrar loading
+	let btnGuardar = $('#modalNuevoCliente .btn-color_principal');
+	let btnTextoOriginal = btnGuardar.html();
+	btnGuardar.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span>Registrando...');
+	
+	$.post(IP_SERVER + 'clientes/registroRapido', {
+		nombre_completo: nombre,
+		numero_documento: documento
+	}, function(response) {
+		btnGuardar.prop('disabled', false).html(btnTextoOriginal);
+		
+		if (response.success) {
+			modalNuevoCliente.hide();
+			
+			let cliente = response.cliente;
+			let mensaje = response.existente 
+				? 'Cliente encontrado y seleccionado' 
+				: 'Cliente registrado correctamente';
+			
+			// Agregar el cliente al select si no existe
+			if (!$('#selectCliente option[value="' + cliente.id + '"]').length) {
+				$('#selectCliente').append(
+					`<option value="${cliente.id}">${cliente.nombre_completo} - ${cliente.numero_documento}</option>`
+				);
+			}
+			
+			// Seleccionar el cliente
+			$('#selectCliente').val(cliente.id);
+			
+			// Mostrar notificación
+			Swal.fire({
+				icon: 'success',
+				title: mensaje,
+				text: cliente.nombre_completo,
+				timer: 2000,
+				showConfirmButton: false
+			});
+		} else {
+			Swal.fire('Error', response.message, 'error');
+		}
+	}, 'json').fail(function() {
+		btnGuardar.prop('disabled', false).html(btnTextoOriginal);
+		Swal.fire('Error', 'No se pudo registrar el cliente', 'error');
 	});
 }
 </script>

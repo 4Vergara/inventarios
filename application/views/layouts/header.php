@@ -63,7 +63,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link">
+						<a href="<?php echo IP_SERVER . 'clientes'; ?>" class="nav-link <?php echo ($this->uri->segment(1) == 'clientes') ? 'active' : ''; ?>">
 							<i class="bi bi-people-fill"></i>
 							<span class="nav-text">Clientes</span>
 						</a>

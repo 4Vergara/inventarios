@@ -131,4 +131,50 @@ class Clientes_model extends MY_Model {
 		
 		return $stats;
 	}
+	
+	/**
+	 * Listar clientes con estadísticas de compras
+	 * 
+	 * @return array
+	 */
+	public function listarConEstadisticas() {
+		return $this->db->select('c.id,
+				c.nombre_completo,
+				c.numero_documento,
+				c.correo_electronico,
+				c.fec_creacion,
+				(SELECT COUNT(*) FROM ventas v WHERE v.id_cliente = c.id) as total_compras,
+				(SELECT COALESCE(SUM(v2.total_final), 0) FROM ventas v2 WHERE v2.id_cliente = c.id) as monto_total,
+				(SELECT MAX(v3.fecha_venta) FROM ventas v3 WHERE v3.id_cliente = c.id) as ultima_compra')
+			->from($this->table . ' c')
+			->order_by('c.nombre_completo', 'ASC')
+			->get()
+			->result();
+	}
+	
+	/**
+	 * Obtener historial de compras de un cliente
+	 * 
+	 * @param int $idCliente
+	 * @return array
+	 */
+	public function obtenerHistorialCompras($idCliente) {
+		return $this->db->select('v.id,
+				v.folio_factura,
+				v.fecha_venta,
+				v.subtotal,
+				v.total_impuestos,
+				v.total_descuentos,
+				v.total_final,
+				(SELECT COALESCE(SUM(p.monto), 0) FROM pagos p WHERE p.id_venta = v.id) as total_pagado,
+				(v.total_final - (SELECT COALESCE(SUM(p2.monto), 0) FROM pagos p2 WHERE p2.id_venta = v.id)) as saldo_pendiente,
+				u.nombre_completo as vendedor_nombre,
+				(SELECT COUNT(*) FROM ventas_detalle vd WHERE vd.id_venta = v.id) as total_productos')
+			->from('ventas v')
+			->join('usuarios u', 'u.id_usuario = v.id_vendedor', 'left')
+			->where('v.id_cliente', $idCliente)
+			->order_by('v.fecha_venta', 'DESC')
+			->get()
+			->result();
+	}
 }
