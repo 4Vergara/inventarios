@@ -318,8 +318,8 @@
 		<?php endif; ?>
 		
 		<div class="bento-card producto-card <?php echo $isFeatured ? 'bento-featured' : ''; ?> <?php echo $isWide ? 'bento-wide' : ''; ?>" data-categoria="<?php echo $producto->id_categoria ?? ''; ?>">
-			<?php if (!empty($producto->imagen)): ?>
-				<img src="<?php echo IP_SERVER . 'assets/imagen/productos/' . $producto->imagen; ?>" 
+			<?php if (!empty($producto->imagen_principal_url)): ?>
+				<img src="<?php echo $producto->imagen_principal_url; ?>" 
 					 alt="<?php echo htmlspecialchars($producto->nombre); ?>" 
 					 class="bento-card-img">
 			<?php else: ?>
