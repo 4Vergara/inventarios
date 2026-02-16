@@ -25,7 +25,8 @@
 	</script>
 	<script src="<?php echo IP_SERVER . 'assets/js/main.js'; ?>"></script>
 </head>
-<body class="admin-layout">
+<body class="admin-layout<?php echo (!isset($this->session->datosusuario) || !$this->session->datosusuario) ? ' no-sidebar' : ''; ?>">
+	<?php if (isset($this->session->datosusuario) && $this->session->datosusuario): ?>
 	<!-- Sidebar -->
 	<aside class="sidebar" id="sidebar">
 		<!-- Logo -->
@@ -105,6 +106,7 @@
 
 	<!-- Overlay para móvil -->
 	<div class="sidebar-overlay" id="sidebarOverlay"></div>
+	<?php endif; ?>
 
 	<!-- Contenedor Principal -->
 	<div class="main-wrapper" id="mainWrapper">
@@ -116,20 +118,7 @@
 				</button>
 			</div>
 
-			<div class="header-center">
-				<!-- Search -->
-				<div class="search-container">
-					<i class="bi bi-search search-icon"></i>
-					<input type="text" class="search-input" placeholder="Buscar...">
-				</div>
-			</div>
-
 			<div class="header-right">
-				<!-- Notificaciones -->
-				<button class="header-icon-btn">
-					<i class="bi bi-bell"></i>
-					<span class="notification-badge">3</span>
-				</button>
 
 				<!-- Usuario -->
 				<?php if (isset($this->session->datosusuario) && $this->session->datosusuario): ?>
@@ -158,7 +147,7 @@
 					</ul>
 				</div>
 				<?php else: ?>
-				<a href="<?php echo IP_SERVER . 'login'; ?>" class="btn btn-sm btn-primary-custom">
+				<a href="<?php echo IP_SERVER . 'login'; ?>" class="btn btn-sm btn-color_principal">
 					<i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
 				</a>
 				<?php endif; ?>

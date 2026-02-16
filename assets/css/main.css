@@ -308,6 +308,19 @@ h1, h2, h3, h4, h5, h6 {
 	margin-left: var(--sidebar-collapsed-width) !important;
 }
 
+/* Sin sidebar (usuario no autenticado) */
+.no-sidebar .main-wrapper {
+	margin-left: 0 !important;
+}
+
+.no-sidebar .sidebar-toggle-btn {
+	display: none !important;
+}
+
+.no-sidebar .top-header {
+	width: 100% !important;
+}
+
 /* ==========================================
    TOP HEADER
    ========================================== */
