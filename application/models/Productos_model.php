@@ -214,4 +214,20 @@ class Productos_model extends MY_Model {
 	public function contar() {
 		return $this->db->from($this->table)->count_all_results();
 	}
+	
+	/**
+	 * Obtener productos para el catálogo público
+	 * Solo productos activos
+	 * 
+	 * @return array
+	 */
+	public function obtenerProductosCatalogo() {
+		return $this->db->select('p.*, c.nombre as categoria_nombre')
+			->from("$this->table as p")
+			->join('configuraciones as c', 'p.id_categoria = c.id', 'left')
+			->where('p.estado', 'activo')
+			->order_by('p.id', 'DESC')
+			->get()
+			->result();
+	}
 }

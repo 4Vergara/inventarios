@@ -18,6 +18,7 @@ class Home extends CI_Controller {
 	/**
 	 * Dashboard principal
 	 * Muestra resumen de productos, clientes y ventas si hay sesión activa
+	 * Muestra catálogo público si no hay sesión
 	 */
 	public function index() {
 		$data = [];
@@ -33,6 +34,12 @@ class Home extends CI_Controller {
 				'total_clientes' => $this->Clientes_model->contar(),
 				'total_ventas' => $this->Ventas_model->contar()
 			];
+		} else {
+			// Cargar productos para el catálogo público
+			$this->load->model('Productos_model');
+			$this->load->model('Configuraciones_model');
+			$data['productos_catalogo'] = $this->Productos_model->obtenerProductosCatalogo();
+			$data['categorias_catalogo'] = $this->Configuraciones_model->obtenerCategoriasProductos();
 		}
 		
 		$this->load->view('layouts/header');
