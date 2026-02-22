@@ -83,7 +83,7 @@
 				<input type="date" class="form-control" id="filtroHasta">
 			</div>
 			<div class="col-md-3 d-flex gap-2">
-				<button class="btn btn-color_principal flex-grow-1" onclick="cargarCierres()">
+				<button class="btn btn-color_principal flex-grow-1" onclick="aplicarFiltros()">
 					<i class="bi bi-search me-1"></i>Filtrar
 				</button>
 				<button class="btn btn-outline-secondary" onclick="limpiarFiltros()">
@@ -95,39 +95,111 @@
 </div>
 
 <!-- Tabla -->
-<div class="card card-modern">
+<div class="card table-card">
+	<div class="card-header bg-white border-bottom">
+		<div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+			<span class="fw-semibold text-muted">Listado de Cierres de Caja</span>
+			<button class="btn btn-sm btn-outline-secondary" onclick="recargarTabla()">
+				<i class="bi bi-arrow-clockwise me-1"></i>Actualizar
+			</button>
+		</div>
+	</div>
 	<div class="card-body p-0">
-		<div class="table-responsive">
-			<table class="table table-modern mb-0" id="tablaCierres">
+		<div class="table-responsive p-3">
+			<table class="table table-modern align-middle mb-0" id="tablaCierres">
 				<thead>
 					<tr>
-						<th>Código</th>
-						<th>Período</th>
-						<th>Rango Fechas</th>
-						<th>Ventas</th>
-						<th class="text-end">Total Ventas</th>
-						<th class="text-end">Total IVA</th>
-						<th class="text-end">Diferencia</th>
-						<th>Realizado por</th>
-						<th>Fecha Cierre</th>
-						<th class="text-center">Acciones</th>
+						<th>CÓDIGO</th>
+						<th>PERÍODO</th>
+						<th>RANGO FECHAS</th>
+						<th class="text-center">VENTAS</th>
+						<th class="text-end">TOTAL VENTAS</th>
+						<th class="text-end">TOTAL IVA</th>
+						<th class="text-end">DIFERENCIA</th>
+						<th>REALIZADO POR</th>
+						<th>FECHA CIERRE</th>
+						<th class="text-center" style="width: 120px;">ACCIONES</th>
 					</tr>
 				</thead>
-				<tbody id="bodyCierres">
-					<tr>
-						<td colspan="10" class="text-center text-muted py-4">Cargando...</td>
-					</tr>
+				<tbody>
 				</tbody>
 			</table>
 		</div>
 	</div>
 </div>
 
-<script>
-const IP_SERVER = '<?php echo IP_SERVER; ?>';
+<!-- Estilos consistentes con ventas y facturacion -->
+<style>
+.folio-badge {
+	font-family: 'Courier New', monospace;
+	font-weight: 700;
+	color: var(--color_principal-600);
+	background: var(--color_principal-50);
+	padding: 6px 12px;
+	border-radius: 8px;
+	font-size: 0.85rem;
+}
+.tipo-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 5px 12px;
+	border-radius: 20px;
+	font-size: 0.75rem;
+	font-weight: 600;
+}
+.tipo-badge.dia { background: #dbeafe; color: #2563eb; }
+.tipo-badge.semana { background: #e0f2fe; color: #0284c7; }
+.tipo-badge.mes { background: #dcfce7; color: #16a34a; }
+.tipo-badge.anio { background: #fef9c3; color: #ca8a04; }
+.action-buttons {
+	display: flex;
+	gap: 6px;
+	justify-content: center;
+}
+.action-btn {
+	width: 36px;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+	border: 1px solid #e5e7eb;
+	background: #ffffff;
+	color: #6b7280;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	text-decoration: none;
+}
+.action-btn:hover {
+	border-color: var(--color_principal-300);
+	color: var(--color_principal-600);
+	background: var(--color_principal-50);
+}
+.action-btn.print:hover {
+	border-color: #93c5fd;
+	color: #2563eb;
+	background: #eff6ff;
+}
+.table-card {
+	border: 1px solid #e5e7eb;
+	border-radius: 16px;
+	overflow: hidden;
+}
+.dt-layout-row {
+	padding: 10px 15px !important;
+}
+.dt-layout-table {
+	padding: 0 !important;
+}
+</style>
 
-$(document).ready(function(){
-	cargarCierres();
+<script>
+let tablaCierres;
+
+$(document).ready(function() {
+	cargarEstadisticas();
+	inicializarTabla();
 });
 
 function formatMoney(n) {
@@ -135,72 +207,32 @@ function formatMoney(n) {
 }
 
 function getTipoLabel(tipo) {
-	const labels = { dia: 'Diario', semana: 'Semanal', mes: 'Mensual', anio: 'Anual' };
+	var labels = { dia: 'Diario', semana: 'Semanal', mes: 'Mensual', anio: 'Anual' };
 	return labels[tipo] || tipo;
 }
 
-function getTipoBadge(tipo) {
-	const colors = { dia: 'primary', semana: 'info', mes: 'success', anio: 'warning' };
-	return `<span class="badge bg-${colors[tipo] || 'secondary'}">${getTipoLabel(tipo)}</span>`;
+function formatDate(d) {
+	if (!d) return '-';
+	var parts = d.split('-');
+	return parts[2] + '/' + parts[1] + '/' + parts[0];
 }
 
-function cargarCierres() {
-	let datos = {
+function formatDateTime(d) {
+	if (!d) return '-';
+	var dt = new Date(d);
+	return dt.toLocaleDateString('es-CO') + ' ' + dt.toLocaleTimeString('es-CO', {hour: '2-digit', minute: '2-digit'});
+}
+
+function cargarEstadisticas() {
+	$.post(IP_SERVER + 'cierre_caja/listar', {
 		tipo_periodo: $('#filtroTipo').val(),
 		fecha_desde: $('#filtroDesde').val(),
 		fecha_hasta: $('#filtroHasta').val()
-	};
-	
-	$.post(IP_SERVER + 'cierre_caja/listar', datos, function(res){
+	}, function(res) {
 		if (res.success) {
-			renderTabla(res.data);
 			actualizarEstadisticas(res.data);
-		} else {
-			$('#bodyCierres').html('<tr><td colspan="10" class="text-center text-muted py-4">' + res.message + '</td></tr>');
 		}
-	}, 'json').fail(function(){
-		$('#bodyCierres').html('<tr><td colspan="10" class="text-center text-danger py-4">Error al cargar datos</td></tr>');
-	});
-}
-
-function renderTabla(cierres) {
-	if (!cierres || cierres.length === 0) {
-		$('#bodyCierres').html('<tr><td colspan="10" class="text-center text-muted py-4"><i class="bi bi-inbox me-2"></i>No se encontraron cierres de caja</td></tr>');
-		return;
-	}
-	
-	let html = '';
-	cierres.forEach(function(c){
-		let diferencia = parseFloat(c.diferencia_caja || 0);
-		let difClass = diferencia > 0 ? 'text-success' : (diferencia < 0 ? 'text-danger' : '');
-		let difPrefix = diferencia > 0 ? '+' : '';
-		
-		html += `<tr>
-			<td><strong>${c.codigo_cierre}</strong></td>
-			<td>${getTipoBadge(c.tipo_periodo)}</td>
-			<td>
-				<small>${formatDate(c.fecha_inicio)} — ${formatDate(c.fecha_fin)}</small>
-			</td>
-			<td class="text-center">${c.total_ventas_count || 0}</td>
-			<td class="text-end"><strong>${formatMoney(c.total_ventas)}</strong></td>
-			<td class="text-end">${formatMoney(c.total_iva)}</td>
-			<td class="text-end"><span class="${difClass}">${difPrefix}${formatMoney(diferencia)}</span></td>
-			<td>${c.creado_por || '-'}</td>
-			<td><small>${formatDateTime(c.fec_creacion)}</small></td>
-			<td class="text-center">
-				<div class="btn-group btn-group-sm">
-					<a href="${IP_SERVER}cierre_caja/ver/${c.id}" class="btn btn-outline-primary" title="Ver detalle">
-						<i class="bi bi-eye"></i>
-					</a>
-					<a href="${IP_SERVER}cierre_caja/pdf/${c.id}" class="btn btn-outline-secondary" title="Imprimir" target="_blank">
-						<i class="bi bi-printer"></i>
-					</a>
-				</div>
-			</td>
-		</tr>`;
-	});
-	
-	$('#bodyCierres').html(html);
+	}, 'json');
 }
 
 function actualizarEstadisticas(cierres) {
@@ -211,36 +243,125 @@ function actualizarEstadisticas(cierres) {
 		$('#ultimoCierre').text('Sin cierres');
 		return;
 	}
-	
+
 	$('#totalCierres').text(cierres.length);
-	
-	let totalV = 0, totalI = 0;
-	cierres.forEach(function(c){
+
+	var totalV = 0, totalI = 0;
+	cierres.forEach(function(c) {
 		totalV += parseFloat(c.total_ventas || 0);
 		totalI += parseFloat(c.total_iva || 0);
 	});
-	
+
 	$('#totalVentas').text(formatMoney(totalV));
 	$('#totalIva').text(formatMoney(totalI));
 	$('#ultimoCierre').text(cierres[0].codigo_cierre || 'Sin cierres');
 }
 
-function formatDate(d) {
-	if (!d) return '-';
-	const parts = d.split('-');
-	return parts[2] + '/' + parts[1] + '/' + parts[0];
+function inicializarTabla() {
+	tablaCierres = $('#tablaCierres').DataTable({
+		ajax: {
+			url: IP_SERVER + 'cierre_caja/listar',
+			type: 'POST',
+			data: function(d) {
+				d.tipo_periodo = $('#filtroTipo').val();
+				d.fecha_desde = $('#filtroDesde').val();
+				d.fecha_hasta = $('#filtroHasta').val();
+			},
+			dataSrc: function(json) {
+				return json.data || [];
+			}
+		},
+		columns: [
+			{
+				data: 'codigo_cierre',
+				render: function(data) {
+					return '<span class="folio-badge">' + data + '</span>';
+				}
+			},
+			{
+				data: 'tipo_periodo',
+				render: function(data) {
+					return '<span class="tipo-badge ' + data + '">' + getTipoLabel(data) + '</span>';
+				}
+			},
+			{
+				data: 'fecha_inicio',
+				render: function(data, type, row) {
+					return '<small>' + formatDate(data) + ' — ' + formatDate(row.fecha_fin) + '</small>';
+				}
+			},
+			{
+				data: 'total_ventas_count',
+				className: 'text-center',
+				render: function(data) {
+					return data || 0;
+				}
+			},
+			{
+				data: 'total_ventas',
+				className: 'text-end fw-bold',
+				render: function(data) { return formatMoney(data); }
+			},
+			{
+				data: 'total_iva',
+				className: 'text-end',
+				render: function(data) { return formatMoney(data); }
+			},
+			{
+				data: 'diferencia_caja',
+				className: 'text-end',
+				render: function(data) {
+					var dif = parseFloat(data || 0);
+					var cls = dif > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '');
+					var prefix = dif > 0 ? '+' : '';
+					return '<span class="' + cls + '">' + prefix + formatMoney(dif) + '</span>';
+				}
+			},
+			{
+				data: 'creado_por',
+				render: function(data) { return data || '-'; }
+			},
+			{
+				data: 'fec_creacion',
+				render: function(data) {
+					return '<small>' + formatDateTime(data) + '</small>';
+				}
+			},
+			{
+				data: 'id',
+				className: 'text-center',
+				orderable: false,
+				render: function(data) {
+					return '<div class="action-buttons">' +
+						'<a href="' + IP_SERVER + 'cierre_caja/ver/' + data + '" class="action-btn" title="Ver detalle"><i class="bi bi-eye"></i></a>' +
+						'<a href="' + IP_SERVER + 'cierre_caja/pdf/' + data + '" target="_blank" class="action-btn print" title="Imprimir"><i class="bi bi-printer"></i></a>' +
+						'</div>';
+				}
+			}
+		],
+		language: TABLA_CONFIGURACION.language,
+		order: [[8, 'desc']],
+		responsive: true,
+		pageLength: 10,
+		lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+		dom: '<"row mb-3"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row mt-3"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>'
+	});
 }
 
-function formatDateTime(d) {
-	if (!d) return '-';
-	const dt = new Date(d);
-	return dt.toLocaleDateString('es-CO') + ' ' + dt.toLocaleTimeString('es-CO', {hour: '2-digit', minute: '2-digit'});
+function aplicarFiltros() {
+	tablaCierres.ajax.reload();
+	cargarEstadisticas();
+}
+
+function recargarTabla() {
+	tablaCierres.ajax.reload(null, false);
+	cargarEstadisticas();
 }
 
 function limpiarFiltros() {
 	$('#filtroTipo').val('');
 	$('#filtroDesde').val('');
 	$('#filtroHasta').val('');
-	cargarCierres();
+	aplicarFiltros();
 }
 </script>

@@ -204,7 +204,6 @@
 </div>
 
 <script>
-const IP_SERVER = '<?php echo IP_SERVER; ?>';
 let previewData = null;
 
 function formatMoney(n) {

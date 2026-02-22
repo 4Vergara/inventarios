@@ -96,33 +96,118 @@
 
 <!-- Tabla -->
 <div class="card table-card">
-	<div class="card-body">
-		<div class="table-responsive">
-			<table class="table table-modern" id="tablaFacturas">
+	<div class="card-header bg-white border-bottom">
+		<div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+			<span class="fw-semibold text-muted">Listado de Facturas</span>
+			<button class="btn btn-sm btn-outline-secondary" onclick="recargarTabla()">
+				<i class="bi bi-arrow-clockwise me-1"></i>Actualizar
+			</button>
+		</div>
+	</div>
+	<div class="card-body p-0">
+		<div class="table-responsive p-3">
+			<table class="table table-modern align-middle mb-0" id="tablaFacturas">
 				<thead>
 					<tr>
 						<th>N° FACTURA</th>
 						<th>FECHA</th>
 						<th>CLIENTE</th>
 						<th>NIT/CC</th>
-						<th>SUBTOTAL</th>
-						<th>IVA</th>
-						<th>TOTAL</th>
-						<th>ESTADO</th>
-						<th style="width: 120px;">ACCIONES</th>
+						<th class="text-end">SUBTOTAL</th>
+						<th class="text-end">IVA</th>
+						<th class="text-end">TOTAL</th>
+						<th class="text-center">ESTADO</th>
+						<th class="text-center" style="width: 150px;">ACCIONES</th>
 					</tr>
 				</thead>
-				<tbody id="bodyFacturas">
+				<tbody>
 				</tbody>
 			</table>
 		</div>
 	</div>
 </div>
 
+<!-- Estilos consistentes con ventas -->
+<style>
+.folio-badge {
+	font-family: 'Courier New', monospace;
+	font-weight: 700;
+	color: var(--color_principal-600);
+	background: var(--color_principal-50);
+	padding: 6px 12px;
+	border-radius: 8px;
+	font-size: 0.85rem;
+}
+.estado-pago {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 14px;
+	border-radius: 20px;
+	font-size: 0.75rem;
+	font-weight: 600;
+}
+.estado-pago.pagada {
+	background: #dcfce7;
+	color: #16a34a;
+}
+.estado-pago.pendiente {
+	background: #fee2e2;
+	color: #dc2626;
+}
+.action-buttons {
+	display: flex;
+	gap: 6px;
+	justify-content: center;
+}
+.action-btn {
+	width: 36px;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;
+	border: 1px solid #e5e7eb;
+	background: #ffffff;
+	color: #6b7280;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	text-decoration: none;
+}
+.action-btn:hover {
+	border-color: var(--color_principal-300);
+	color: var(--color_principal-600);
+	background: var(--color_principal-50);
+}
+.action-btn.delete:hover {
+	border-color: #fca5a5;
+	color: #dc2626;
+	background: #fef2f2;
+}
+.action-btn.print:hover {
+	border-color: #93c5fd;
+	color: #2563eb;
+	background: #eff6ff;
+}
+.table-card {
+	border: 1px solid #e5e7eb;
+	border-radius: 16px;
+	overflow: hidden;
+}
+.dt-layout-row {
+	padding: 10px 15px !important;
+}
+.dt-layout-table {
+	padding: 0 !important;
+}
+</style>
+
 <script>
+let tablaFacturas;
+
 $(document).ready(function() {
 	cargarEstadisticas();
-	cargarFacturas();
+	inicializarTabla();
 });
 
 function formatMoney(val) {
@@ -140,62 +225,96 @@ function cargarEstadisticas() {
 	});
 }
 
+function inicializarTabla() {
+	tablaFacturas = $('#tablaFacturas').DataTable({
+		ajax: {
+			url: IP_SERVER + 'facturacion/listar',
+			type: 'POST',
+			data: function(d) {
+				d.fecha_desde = $('#filtroFechaDesde').val();
+				d.fecha_hasta = $('#filtroFechaHasta').val();
+				d.estado = $('#filtroEstado').val();
+				d.numero_factura = $('#filtroNumero').val();
+				d.cliente = $('#filtroNumero').val();
+			},
+			dataSrc: function(json) {
+				return json.data || [];
+			}
+		},
+		columns: [
+			{
+				data: 'numero_factura',
+				render: function(data) {
+					return '<span class="folio-badge">' + data + '</span>';
+				}
+			},
+			{
+				data: 'fecha_factura',
+				render: function(data) {
+					let fecha = new Date(data);
+					return fecha.toLocaleDateString('es-CO', {day: '2-digit', month: 'short', year: 'numeric'});
+				}
+			},
+			{ data: 'cliente_razon_social' },
+			{ data: 'cliente_nit_cc' },
+			{
+				data: 'subtotal',
+				className: 'text-end',
+				render: function(data) { return formatMoney(data); }
+			},
+			{
+				data: 'total_iva',
+				className: 'text-end',
+				render: function(data) { return formatMoney(data); }
+			},
+			{
+				data: 'total_final',
+				className: 'text-end fw-bold',
+				render: function(data) { return formatMoney(data); }
+			},
+			{
+				data: 'estado',
+				className: 'text-center',
+				render: function(data) {
+					if (data === 'emitida') {
+						return '<span class="estado-pago pagada"><i class="bi bi-check-circle"></i> Emitida</span>';
+					}
+					return '<span class="estado-pago pendiente"><i class="bi bi-x-circle"></i> Anulada</span>';
+				}
+			},
+			{
+				data: 'id',
+				className: 'text-center',
+				orderable: false,
+				render: function(data, type, row) {
+					let anularBtn = row.estado === 'emitida'
+						? '<button type="button" class="action-btn delete" title="Anular" onclick="anularFactura(' + data + ')"><i class="bi bi-x-lg"></i></button>'
+						: '';
+					return '<div class="action-buttons">' +
+						'<a href="' + IP_SERVER + 'facturacion/ver/' + data + '" class="action-btn" title="Ver detalle"><i class="bi bi-eye"></i></a>' +
+						'<a href="' + IP_SERVER + 'facturacion/pdf/' + data + '" target="_blank" class="action-btn print" title="PDF"><i class="bi bi-file-earmark-pdf"></i></a>' +
+						anularBtn +
+						'</div>';
+				}
+			}
+		],
+		language: TABLA_CONFIGURACION.language,
+		order: [[1, 'desc']],
+		responsive: true,
+		pageLength: 10,
+		lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+		dom: '<"row mb-3"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row mt-3"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>'
+	});
+}
+
 function aplicarFiltros() {
-	cargarFacturas();
+	tablaFacturas.ajax.reload();
+	cargarEstadisticas();
 }
 
-function cargarFacturas() {
-	$.post(IP_SERVER + 'facturacion/listar', {
-		fecha_desde: $('#filtroFechaDesde').val(),
-		fecha_hasta: $('#filtroFechaHasta').val(),
-		estado: $('#filtroEstado').val(),
-		numero_factura: $('#filtroNumero').val(),
-		cliente: $('#filtroNumero').val()
-	}, function(res) {
-		if (res.success) {
-			renderTabla(res.data);
-		}
-	});
-}
-
-function renderTabla(facturas) {
-	let html = '';
-	
-	if (facturas.length === 0) {
-		html = '<tr><td colspan="9" class="text-center py-5"><i class="bi bi-receipt display-4 text-muted d-block mb-3"></i><p class="text-muted">No se encontraron facturas</p></td></tr>';
-	}
-	
-	facturas.forEach(function(f) {
-		let estadoBadge = f.estado === 'emitida' 
-			? '<span class="estado-badge pagada"><i class="bi bi-check-circle me-1"></i>Emitida</span>'
-			: '<span class="estado-badge pendiente"><i class="bi bi-x-circle me-1"></i>Anulada</span>';
-		
-		let fecha = new Date(f.fecha_factura).toLocaleDateString('es-CO', {day:'2-digit', month:'2-digit', year:'numeric'});
-		
-		html += `<tr>
-			<td><strong>${f.numero_factura}</strong></td>
-			<td>${fecha}</td>
-			<td>${f.cliente_razon_social}</td>
-			<td>${f.cliente_nit_cc}</td>
-			<td>${formatMoney(f.subtotal)}</td>
-			<td>${formatMoney(f.total_iva)}</td>
-			<td><strong>${formatMoney(f.total_final)}</strong></td>
-			<td>${estadoBadge}</td>
-			<td>
-				<div class="btn-group btn-group-sm">
-					<a href="${IP_SERVER}facturacion/ver/${f.id}" class="btn btn-outline-primary" title="Ver">
-						<i class="bi bi-eye"></i>
-					</a>
-					<a href="${IP_SERVER}facturacion/pdf/${f.id}" target="_blank" class="btn btn-outline-secondary" title="PDF">
-						<i class="bi bi-file-earmark-pdf"></i>
-					</a>
-					${f.estado === 'emitida' ? `<button class="btn btn-outline-danger" onclick="anularFactura(${f.id})" title="Anular"><i class="bi bi-x-lg"></i></button>` : ''}
-				</div>
-			</td>
-		</tr>`;
-	});
-	
-	$('#bodyFacturas').html(html);
+function recargarTabla() {
+	tablaFacturas.ajax.reload(null, false);
+	cargarEstadisticas();
 }
 
 function anularFactura(id) {
@@ -223,8 +342,7 @@ function anularFactura(id) {
 			}, function(res) {
 				if (res.success) {
 					Swal.fire('Anulada', res.message, 'success');
-					cargarEstadisticas();
-					cargarFacturas();
+					recargarTabla();
 				} else {
 					Swal.fire('Error', res.message, 'error');
 				}
