@@ -76,9 +76,15 @@
 				<span class="nav-section-title">OPERACIONES</span>
 				<ul class="nav-list">
 					<li class="nav-item">
-						<a href="#" class="nav-link">
+						<a href="<?php echo IP_SERVER . 'facturacion'; ?>" class="nav-link <?php echo ($this->uri->segment(1) == 'facturacion') ? 'active' : ''; ?>">
 							<i class="bi bi-receipt"></i>
 							<span class="nav-text">Facturación</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="<?php echo IP_SERVER . 'cierre_caja'; ?>" class="nav-link <?php echo ($this->uri->segment(1) == 'cierre_caja') ? 'active' : ''; ?>">
+							<i class="bi bi-cash-stack"></i>
+							<span class="nav-text">Cierre de Caja</span>
 						</a>
 					</li>
 					<li class="nav-item">
