@@ -213,7 +213,8 @@ function getTipoLabel(tipo) {
 
 function formatDate(d) {
 	if (!d) return '-';
-	var parts = d.split('-');
+	var datePart = d.split(' ')[0];
+	var parts = datePart.split('-');
 	return parts[2] + '/' + parts[1] + '/' + parts[0];
 }
 
@@ -248,8 +249,8 @@ function actualizarEstadisticas(cierres) {
 
 	var totalV = 0, totalI = 0;
 	cierres.forEach(function(c) {
-		totalV += parseFloat(c.total_ventas || 0);
-		totalI += parseFloat(c.total_iva || 0);
+		totalV += parseFloat(c.monto_total_vendido || 0);
+		totalI += parseFloat(c.monto_impuestos || 0);
 	});
 
 	$('#totalVentas').text(formatMoney(totalV));
@@ -291,19 +292,19 @@ function inicializarTabla() {
 				}
 			},
 			{
-				data: 'total_ventas_count',
+				data: 'total_ventas',
 				className: 'text-center',
 				render: function(data) {
 					return data || 0;
 				}
 			},
 			{
-				data: 'total_ventas',
+				data: 'monto_total_vendido',
 				className: 'text-end fw-bold',
 				render: function(data) { return formatMoney(data); }
 			},
 			{
-				data: 'total_iva',
+				data: 'monto_impuestos',
 				className: 'text-end',
 				render: function(data) { return formatMoney(data); }
 			},

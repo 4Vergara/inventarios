@@ -124,7 +124,6 @@
 							<thead>
 								<tr>
 									<th>Método de Pago</th>
-									<th class="text-center">Cantidad</th>
 									<th class="text-end">Total</th>
 								</tr>
 							</thead>
@@ -212,7 +211,8 @@ function formatMoney(n) {
 
 function formatDate(d) {
 	if (!d) return '-';
-	const parts = d.split('-');
+	var datePart = d.split(' ')[0];
+	var parts = datePart.split('-');
 	return parts[2] + '/' + parts[1] + '/' + parts[0];
 }
 
@@ -270,28 +270,29 @@ function mostrarPreview(data) {
 	$('#prevRango').html('<strong>Desde:</strong> ' + formatDate(data.fecha_inicio) + ' &nbsp;&mdash;&nbsp; <strong>Hasta:</strong> ' + formatDate(data.fecha_fin));
 	
 	// Resumen
-	$('#prevTotalVentas').text(data.total_ventas_count || 0);
-	$('#prevMontoVentas').text(formatMoney(data.total_ventas));
-	$('#prevTotalIva').text(formatMoney(data.total_iva));
+	$('#prevTotalVentas').text(data.total_ventas || 0);
+	$('#prevMontoVentas').text(formatMoney(data.monto_total_vendido));
+	$('#prevTotalIva').text(formatMoney(data.monto_impuestos));
 	$('#prevAnuladas').text(data.ventas_anuladas || 0);
 	
 	// Métodos de pago
 	let htmlMetodos = '';
-	if (data.desglose_metodo_pago) {
-		let metodos;
-		try {
-			metodos = typeof data.desglose_metodo_pago === 'string' ? JSON.parse(data.desglose_metodo_pago) : data.desglose_metodo_pago;
-		} catch(e) { metodos = {}; }
-		
-		for (let m in metodos) {
-			htmlMetodos += `<tr>
-				<td><i class="bi bi-credit-card me-1"></i>${m}</td>
-				<td class="text-center">${metodos[m].cantidad || 0}</td>
-				<td class="text-end"><strong>${formatMoney(metodos[m].total)}</strong></td>
-			</tr>`;
+	let metodosPago = [
+		{ nombre: 'Efectivo', total: parseFloat(data.total_efectivo || 0) },
+		{ nombre: 'Tarjeta de Crédito', total: parseFloat(data.total_tarjeta_credito || 0) },
+		{ nombre: 'Tarjeta de Débito', total: parseFloat(data.total_tarjeta_debito || 0) },
+		{ nombre: 'Transferencia', total: parseFloat(data.total_transferencia || 0) },
+		{ nombre: 'Cheque', total: parseFloat(data.total_cheque || 0) }
+	];
+	metodosPago.forEach(function(mp) {
+		if (mp.total > 0) {
+			htmlMetodos += '<tr>' +
+				'<td><i class="bi bi-credit-card me-1"></i>' + mp.nombre + '</td>' +
+				'<td class="text-end"><strong>' + formatMoney(mp.total) + '</strong></td>' +
+			'</tr>';
 		}
-	}
-	$('#prevMetodosPago').html(htmlMetodos || '<tr><td colspan="3" class="text-center text-muted py-3">Sin datos de pago</td></tr>');
+	});
+	$('#prevMetodosPago').html(htmlMetodos || '<tr><td colspan="2" class="text-center text-muted py-3">Sin datos de pago</td></tr>');
 	
 	// Cuadre de caja
 	let efectivoInicial = parseFloat($('#efectivoInicial').val()) || 0;
@@ -312,17 +313,14 @@ function mostrarPreview(data) {
 	let htmlVentas = '';
 	if (data.ventas && data.ventas.length > 0) {
 		data.ventas.forEach(function(v){
-			let estadoBadge = v.estado === 'completada' ? '<span class="badge bg-success">Completada</span>' :
-							  v.estado === 'anulada' ? '<span class="badge bg-danger">Anulada</span>' :
-							  '<span class="badge bg-warning text-dark">Pendiente</span>';
-			htmlVentas += `<tr>
-				<td>${v.folio || '-'}</td>
-				<td>${v.nombre_cliente || 'Sin cliente'}</td>
-				<td>${formatDate(v.fecha_venta)}</td>
-				<td>${v.metodo_pago || '-'}</td>
-				<td class="text-end">${formatMoney(v.total)}</td>
-				<td class="text-center">${estadoBadge}</td>
-			</tr>`;
+			htmlVentas += '<tr>' +
+				'<td>' + (v.folio_factura || '-') + '</td>' +
+				'<td>' + (v.cliente_nombre || 'Sin cliente') + '</td>' +
+				'<td>' + formatDate(v.fecha_venta) + '</td>' +
+				'<td>' + (v.metodos_pago || '-') + '</td>' +
+				'<td class="text-end">' + formatMoney(v.total_final) + '</td>' +
+				'<td class="text-center"><span class="badge bg-success">Registrada</span></td>' +
+			'</tr>';
 		});
 	}
 	$('#prevVentasDetalle').html(htmlVentas || '<tr><td colspan="6" class="text-center text-muted py-3">No hay ventas en este período</td></tr>');
@@ -354,7 +352,7 @@ function confirmarCierre() {
 	
 	Swal.fire({
 		title: '¿Confirmar cierre de caja?',
-		html: 'Se registrará el cierre con <strong>' + (previewData.total_ventas_count || 0) + ' ventas</strong> por un total de <strong>' + formatMoney(previewData.total_ventas) + '</strong>.<br><br><em>Esta acción no se puede deshacer.</em>',
+		html: 'Se registrará el cierre con <strong>' + (previewData.total_ventas || 0) + ' ventas</strong> por un total de <strong>' + formatMoney(previewData.monto_total_vendido) + '</strong>.<br><br><em>Esta acción no se puede deshacer.</em>',
 		icon: 'question',
 		showCancelButton: true,
 		confirmButtonColor: '#2c3e50',
@@ -382,12 +380,12 @@ function ejecutarCierre() {
 		if (res.success) {
 			Swal.fire({
 				title: '¡Cierre Registrado!',
-				html: 'Código: <strong>' + (res.data.codigo_cierre || '') + '</strong>',
+				html: 'Código: <strong>' + (res.codigo || '') + '</strong>',
 				icon: 'success',
 				confirmButtonColor: '#2c3e50',
 				confirmButtonText: 'Ver Detalle'
 			}).then(() => {
-				window.location.href = IP_SERVER + 'cierre_caja/ver/' + res.data.id;
+				window.location.href = IP_SERVER + 'cierre_caja/ver/' + res.id;
 			});
 		} else {
 			Swal.fire('Error', res.message, 'error');

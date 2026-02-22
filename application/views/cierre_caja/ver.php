@@ -89,7 +89,7 @@
 					<div class="col-sm-6">
 						<div class="info-item">
 							<span class="info-label">Total Ventas (Cant.)</span>
-							<span class="info-value fs-4 text-primary"><?php echo $cierre->total_ventas_count; ?></span>
+							<span class="info-value fs-4 text-primary"><?php echo $cierre->total_ventas; ?></span>
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -101,25 +101,25 @@
 					<div class="col-sm-6">
 						<div class="info-item">
 							<span class="info-label">Total Ventas</span>
-							<span class="info-value fs-5 fw-bold text-success">$<?php echo number_format($cierre->total_ventas, 0, ',', '.'); ?></span>
+							<span class="info-value fs-5 fw-bold text-success">$<?php echo number_format($cierre->monto_total_vendido, 0, ',', '.'); ?></span>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="info-item">
 							<span class="info-label">Total IVA</span>
-							<span class="info-value fs-5">$<?php echo number_format($cierre->total_iva, 0, ',', '.'); ?></span>
+							<span class="info-value fs-5">$<?php echo number_format($cierre->monto_impuestos, 0, ',', '.'); ?></span>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="info-item">
 							<span class="info-label">Subtotal (sin IVA)</span>
-							<span class="info-value">$<?php echo number_format($cierre->total_subtotal, 0, ',', '.'); ?></span>
+							<span class="info-value">$<?php echo number_format($cierre->monto_subtotal, 0, ',', '.'); ?></span>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="info-item">
 							<span class="info-label">Total Descuentos</span>
-							<span class="info-value">$<?php echo number_format($cierre->total_descuentos, 0, ',', '.'); ?></span>
+							<span class="info-value">$<?php echo number_format($cierre->monto_descuentos, 0, ',', '.'); ?></span>
 						</div>
 					</div>
 				</div>
@@ -141,24 +141,30 @@
 						<thead>
 							<tr>
 								<th>Método de Pago</th>
-								<th class="text-center">Cantidad</th>
 								<th class="text-end">Total</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
-								$metodos = json_decode($cierre->desglose_metodo_pago, true);
-								if ($metodos && is_array($metodos)):
-									foreach ($metodos as $metodo => $datos): 
+								$metodosPago = [
+									'Efectivo' => $cierre->total_efectivo,
+									'Tarjeta de Crédito' => $cierre->total_tarjeta_credito,
+									'Tarjeta de Débito' => $cierre->total_tarjeta_debito,
+									'Transferencia' => $cierre->total_transferencia,
+									'Cheque' => $cierre->total_cheque
+								];
+								$hayMetodos = false;
+								foreach ($metodosPago as $metodo => $total):
+									if ($total > 0): $hayMetodos = true;
 							?>
 							<tr>
 								<td><i class="bi bi-credit-card me-1"></i><?php echo $metodo; ?></td>
-								<td class="text-center"><?php echo $datos['cantidad']; ?></td>
-								<td class="text-end"><strong>$<?php echo number_format($datos['total'], 0, ',', '.'); ?></strong></td>
+								<td class="text-end"><strong>$<?php echo number_format($total, 0, ',', '.'); ?></strong></td>
 							</tr>
-							<?php endforeach; else: ?>
+							<?php endif; endforeach; ?>
+							<?php if (!$hayMetodos): ?>
 							<tr>
-								<td colspan="3" class="text-center text-muted py-3">Sin datos de pago</td>
+								<td colspan="2" class="text-center text-muted py-3">Sin datos de pago</td>
 							</tr>
 							<?php endif; ?>
 						</tbody>
@@ -250,33 +256,25 @@
 						<th>Cliente</th>
 						<th>Fecha Venta</th>
 						<th>Método Pago</th>
-						<th class="text-end">Subtotal</th>
-						<th class="text-end">IVA</th>
-						<th class="text-end">Total</th>
+						<th class="text-end">Total Venta</th>
+						<th class="text-end">Total Pagado</th>
 						<th class="text-center">Estado</th>
 						<th class="text-center">Ver</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php if ($cierre->ventas_detalle && count($cierre->ventas_detalle) > 0): ?>
-						<?php $i = 1; foreach ($cierre->ventas_detalle as $v): ?>
+					<?php if ($cierre->ventas && count($cierre->ventas) > 0): ?>
+						<?php $i = 1; foreach ($cierre->ventas as $v): ?>
 						<tr>
 							<td><?php echo $i++; ?></td>
-							<td><strong><?php echo $v->folio ?: '-'; ?></strong></td>
-							<td><?php echo $v->nombre_cliente ?: 'Sin cliente'; ?></td>
-							<td><?php echo date('d/m/Y', strtotime($v->fecha_venta)); ?></td>
-							<td><?php echo $v->metodo_pago ?: '-'; ?></td>
-							<td class="text-end">$<?php echo number_format($v->subtotal, 0, ',', '.'); ?></td>
-							<td class="text-end">$<?php echo number_format($v->impuesto, 0, ',', '.'); ?></td>
-							<td class="text-end"><strong>$<?php echo number_format($v->total, 0, ',', '.'); ?></strong></td>
+							<td><strong><?php echo $v->folio_venta ?: '-'; ?></strong></td>
+							<td><?php echo isset($v->cliente_nombre) ? $v->cliente_nombre : 'Sin cliente'; ?></td>
+							<td><?php echo isset($v->fecha_venta) ? date('d/m/Y', strtotime($v->fecha_venta)) : '-'; ?></td>
+							<td><?php echo $v->metodo_pago_principal ?: '-'; ?></td>
+							<td class="text-end">$<?php echo number_format($v->total_venta, 0, ',', '.'); ?></td>
+							<td class="text-end">$<?php echo number_format($v->total_pagado, 0, ',', '.'); ?></td>
 							<td class="text-center">
-								<?php if ($v->estado === 'completada'): ?>
-									<span class="badge bg-success">Completada</span>
-								<?php elseif ($v->estado === 'anulada'): ?>
-									<span class="badge bg-danger">Anulada</span>
-								<?php else: ?>
-									<span class="badge bg-warning text-dark">Pendiente</span>
-								<?php endif; ?>
+								<span class="badge bg-success">Registrada</span>
 							</td>
 							<td class="text-center">
 								<a href="<?php echo IP_SERVER . 'ventas/ver/' . $v->id_venta; ?>" class="btn btn-sm btn-outline-primary" title="Ver venta">
@@ -291,13 +289,12 @@
 						</tr>
 					<?php endif; ?>
 				</tbody>
-				<?php if ($cierre->ventas_detalle && count($cierre->ventas_detalle) > 0): ?>
+				<?php if ($cierre->ventas && count($cierre->ventas) > 0): ?>
 				<tfoot>
 					<tr class="table-light fw-bold">
 						<td colspan="5" class="text-end">TOTALES:</td>
-						<td class="text-end">$<?php echo number_format($cierre->total_subtotal, 0, ',', '.'); ?></td>
-						<td class="text-end">$<?php echo number_format($cierre->total_iva, 0, ',', '.'); ?></td>
-						<td class="text-end">$<?php echo number_format($cierre->total_ventas, 0, ',', '.'); ?></td>
+						<td class="text-end">$<?php echo number_format($cierre->monto_subtotal, 0, ',', '.'); ?></td>
+						<td class="text-end">$<?php echo number_format($cierre->monto_impuestos, 0, ',', '.'); ?></td>
 						<td colspan="2"></td>
 					</tr>
 				</tfoot>
