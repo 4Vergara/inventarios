@@ -88,7 +88,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="#" class="nav-link">
+						<a href="<?php echo IP_SERVER . 'reportes'; ?>" class="nav-link <?php echo ($this->uri->segment(1) == 'reportes') ? 'active' : ''; ?>">
 							<i class="bi bi-graph-up"></i>
 							<span class="nav-text">Reportes</span>
 						</a>

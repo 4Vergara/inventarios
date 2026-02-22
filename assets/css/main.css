@@ -1669,3 +1669,62 @@ h1, h2, h3, h4, h5, h6 {
 .dt-layout-table {
 	padding: 0 !important;
 }
+
+/* ==========================================
+   REPORTES - Cards y estilos
+   ========================================== */
+.reporte-card {
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+.reporte-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+}
+.reporte-icon {
+	font-size: 2.5rem;
+	color: var(--color_principal-500);
+}
+.reporte-card:hover .reporte-icon {
+	color: var(--color_principal-700);
+}
+
+/* Comparativo */
+.comparativo-item .progress {
+	border-radius: 10px;
+	background-color: #f1f3f5;
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+	background: transparent;
+	padding: 0;
+	margin: 0;
+	font-size: 0.85rem;
+}
+.breadcrumb-item a {
+	color: var(--color_principal-500);
+	text-decoration: none;
+}
+.breadcrumb-item a:hover {
+	color: var(--color_principal-700);
+}
+
+/* Nav Tabs Reportes */
+.nav-tabs .nav-link {
+	color: #6b7280;
+	border: none;
+	border-bottom: 2px solid transparent;
+	font-weight: 500;
+	padding: 10px 16px;
+}
+.nav-tabs .nav-link:hover {
+	color: var(--color_principal-500);
+	border-bottom-color: var(--color_principal-300);
+}
+.nav-tabs .nav-link.active {
+	color: var(--color_principal-600);
+	border-bottom-color: var(--color_principal-500);
+	background: transparent;
+}
+
