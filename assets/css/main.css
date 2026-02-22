@@ -1445,6 +1445,7 @@ h1, h2, h3, h4, h5, h6 {
 	color: #6b7280;
 	cursor: pointer;
 	transition: all 0.2s ease;
+	text-decoration: none;
 }
 
 .action-btn:hover {
@@ -1458,6 +1459,71 @@ h1, h2, h3, h4, h5, h6 {
 	color: #dc2626;
 	background: #fef2f2;
 }
+
+.action-btn.print:hover {
+	border-color: #93c5fd;
+	color: #2563eb;
+	background: #eff6ff;
+}
+
+/* ==========================================
+   Folio Badge (Etiqueta de folio)
+   ========================================== */
+.folio-badge {
+	font-family: 'Courier New', monospace;
+	font-weight: 700;
+	color: var(--color_principal-600);
+	background: var(--color_principal-50);
+	padding: 6px 12px;
+	border-radius: 8px;
+	font-size: 0.85rem;
+}
+
+/* ==========================================
+   Estado Pago Badges (Etiquetas de estado)
+   ========================================== */
+.estado-pago {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 14px;
+	border-radius: 20px;
+	font-size: 0.75rem;
+	font-weight: 600;
+}
+
+.estado-pago.pagada {
+	background: #dcfce7;
+	color: #16a34a;
+}
+
+.estado-pago.parcial {
+	background: #fef3c7;
+	color: #d97706;
+}
+
+.estado-pago.pendiente {
+	background: #fee2e2;
+	color: #dc2626;
+}
+
+/* ==========================================
+   Tipo Badge (Etiqueta de tipo período)
+   ========================================== */
+.tipo-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 5px 12px;
+	border-radius: 20px;
+	font-size: 0.75rem;
+	font-weight: 600;
+}
+
+.tipo-badge.dia { background: #dbeafe; color: #2563eb; }
+.tipo-badge.semana { background: #e0f2fe; color: #0284c7; }
+.tipo-badge.mes { background: #dcfce7; color: #16a34a; }
+.tipo-badge.anio { background: #fef9c3; color: #ca8a04; }
 
 /* ==========================================
    DataTable - Scroll Control

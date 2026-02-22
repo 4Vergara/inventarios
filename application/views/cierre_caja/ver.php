@@ -4,7 +4,7 @@
 		<div class="col-lg-8">
 			<h1 class="page-title">Detalle de Cierre de Caja</h1>
 			<p class="page-subtitle">
-				<span class="badge bg-primary fs-6"><?php echo $cierre->codigo_cierre; ?></span>
+				<span class="badge bg-color_principal fs-6"><?php echo $cierre->codigo_cierre; ?></span>
 			</p>
 		</div>
 		<div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
@@ -20,9 +20,7 @@
 
 <?php
 	$tipoLabels = ['dia' => 'Diario', 'semana' => 'Semanal', 'mes' => 'Mensual', 'anio' => 'Anual'];
-	$tipoColors = ['dia' => 'primary', 'semana' => 'info', 'mes' => 'success', 'anio' => 'warning'];
 	$tipoLabel = isset($tipoLabels[$cierre->tipo_periodo]) ? $tipoLabels[$cierre->tipo_periodo] : $cierre->tipo_periodo;
-	$tipoColor = isset($tipoColors[$cierre->tipo_periodo]) ? $tipoColors[$cierre->tipo_periodo] : 'secondary';
 ?>
 
 <!-- Información General -->
@@ -39,7 +37,7 @@
 						<div class="info-item">
 							<span class="info-label">Tipo de Período</span>
 							<span class="info-value">
-								<span class="badge bg-<?php echo $tipoColor; ?>"><?php echo $tipoLabel; ?></span>
+								<span class="tipo-badge <?php echo $cierre->tipo_periodo; ?>"><?php echo $tipoLabel; ?></span>
 							</span>
 						</div>
 					</div>
@@ -241,6 +239,7 @@
 </div>
 <?php endif; ?>
 
+
 <!-- Detalle de Ventas -->
 <div class="card card-modern">
 	<div class="card-header bg-transparent border-bottom">
@@ -274,12 +273,14 @@
 							<td class="text-end">$<?php echo number_format($v->total_venta, 0, ',', '.'); ?></td>
 							<td class="text-end">$<?php echo number_format($v->total_pagado, 0, ',', '.'); ?></td>
 							<td class="text-center">
-								<span class="badge bg-success">Registrada</span>
+								<span class="estado-pago pagada"><i class="bi bi-check-circle"></i> Registrada</span>
 							</td>
 							<td class="text-center">
-								<a href="<?php echo IP_SERVER . 'ventas/ver/' . $v->id_venta; ?>" class="btn btn-sm btn-outline-primary" title="Ver venta">
-									<i class="bi bi-eye"></i>
-								</a>
+								<div class="action-buttons">
+									<a href="<?php echo IP_SERVER . 'ventas/ver/' . $v->id_venta; ?>" class="action-btn" title="Ver venta">
+										<i class="bi bi-eye"></i>
+									</a>
+								</div>
 							</td>
 						</tr>
 						<?php endforeach; ?>
